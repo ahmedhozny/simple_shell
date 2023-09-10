@@ -16,10 +16,21 @@
 
 extern char **environ;
 
+/************* STRUCTURES ************/
+struct session_info
+{
+	unsigned int status;
+	unsigned long iter_num;
+};
+typedef struct session_info s_info;
+
 /************* FUNCTIONS *************/
 
 /* write functions */
 int _putchar(char c);
 int _puts(char *str);
+
+/* errors functions */
+int command_validity_checker(s_info s_i, char *cmd, int print_error);
 
 #endif
