@@ -30,6 +30,14 @@ typedef struct session_info s_info;
 int _putchar(char c);
 int _puts(char *str);
 
+/* string functions */
+char *_strdup(const char *str);
+size_t _strlen(const char *str);
+
+/* number functions */
+unsigned int digits_counter(unsigned long num);
+char *convertUnsignedNum(unsigned long num);
+
 /* errors functions */
 int command_validity_checker(s_info s_i, char *cmd, int print_error);
 

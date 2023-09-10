@@ -1,5 +1,12 @@
 #include "shell.h"
 
+/**
+ * command_validity_checker - check if command exists and takes actions
+ * @s_i: session info
+ * @cmd: command to be checked
+ * @print_error: [boolean] whether error message will be printed
+ * Return: 0 if command is valid; -1 otherwise.
+ */
 int command_validity_checker(s_info s_i, char *cmd, int print_error)
 {
 	char *temp;
