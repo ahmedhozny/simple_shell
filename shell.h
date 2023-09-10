@@ -14,6 +14,8 @@
 #define BUF_FLUSH (-1)
 #define PROMPT "$ "
 
+extern char **environ;
+
 /************* FUNCTIONS *************/
 
 /* write functions */
