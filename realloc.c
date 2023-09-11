@@ -34,3 +34,32 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 	free(ptr);
 	return (newPtr);
 }
+
+/**
+ * bigFree - frees 2d array
+ * @ptr: ptr to be free'd
+ * @size: size of array
+ *
+ * Return: pointer to the new allocated memory
+ */
+void bigFree(char **ptr, int size)
+{
+	int i = 0;
+
+	if (!ptr)
+		return;
+
+	if (size != -1)
+		for (i = 0; i < size; i++)
+			free(ptr[i]);
+	else
+		for (i = 0; ptr[i]; i++)
+			free(ptr[i]);
+
+	free(ptr);
+}
+
+
+
+
+

@@ -33,6 +33,7 @@ int _puts(char *str);
 /* string functions */
 char *_strdup(const char *str);
 size_t _strlen(const char *str);
+char **getArgs(const char *str, const char *delim);
 
 /* number functions */
 unsigned int digits_counter(unsigned long num);
@@ -44,5 +45,6 @@ int command_validity_checker(s_info s_i, char *cmd, int print_error);
 
 /* memory functions */
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+void bigFree(char **ptr, int size);
 
 #endif
