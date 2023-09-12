@@ -51,7 +51,7 @@ unsigned int digits_counter(unsigned long num)
 
 /**
  * convertUnsignedNum - converts unsigned number to string
- * @x: unsigned number to be converted
+ * @num: unsigned number to be converted
  * Return: string representation of the number
  */
 char *convertUnsignedNum(unsigned long num)

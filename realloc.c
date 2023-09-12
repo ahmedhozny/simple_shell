@@ -58,8 +58,3 @@ void bigFree(char **ptr, int size)
 
 	free(ptr);
 }
-
-
-
-
-

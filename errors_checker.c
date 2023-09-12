@@ -7,19 +7,19 @@
  * @print_error: [boolean] whether error message will be printed
  * Return: 0 if command is valid; -1 otherwise.
  */
-int command_validity_checker(s_info s_i, char *cmd, int print_error)
+int command_validity_checker(s_info *s_i, char *cmd, int print_error)
 {
 	char *temp;
 
 	if (!cmd)
 	{
-		s_i.status = 127;
+		s_i->status = 127;
 		if (print_error)
 		{
 			/* pwd needed */
 			_puts("[PWD here]");
 			_puts(": ");
-			temp = convertUnsignedNum(s_i.iter_num);
+			temp = convertUnsignedNum(s_i->iter_num);
 			_puts(temp);
 			free(temp);
 			_puts(": ");
@@ -29,7 +29,7 @@ int command_validity_checker(s_info s_i, char *cmd, int print_error)
 		}
 		return (-1);
 	}
-	s_i.status = 0;
+	s_i->status = 0;
 	return (0);
 }
 

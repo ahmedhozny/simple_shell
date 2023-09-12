@@ -13,8 +13,9 @@ int main(void)
 	size_t len = 0;
 	char *line = NULL;
 	ssize_t r;
-	char **env = environ;
+	s_info s_i;
 
+	s_i.env = environ;
 	av[1] = NULL;
 	while (1)
 	{
@@ -25,14 +26,20 @@ int main(void)
 		{
 			line[strcspn(line, "\n")] = '\0';
 			av[0] = line;
-			child_pid = fork();
+			if (access(av[0], X_OK) == -1)
+				av[0] = search_PATH(&s_i, av[0]);
+			command_validity_checker(&s_i, av[0], 1);
+			if (!s_i.status)
+			{
+				child_pid = fork();
 			if (child_pid == 0)
 			{
-				if (execve(av[0], av, env) == -1)
+				if (execve(av[0], av, s_i.env) == -1)
 					perror("Error");
 			}
 			else
 				wait(NULL);
+			}
 		}
 	}
 	free(line);

@@ -14,6 +14,9 @@ char *_strdup(const char *str)
 		return (NULL);
 
 	new_str = malloc((_strlen(str) + 1) * sizeof(char));
+	if (!new_str)
+		return (NULL);
+
 	for (i = 0; str[i] != '\0'; i++)
 		new_str[i] = str[i];
 	new_str[i] = '\0';
@@ -62,4 +65,38 @@ int _strcmp(char *s1, char *s2)
 		return (-1);
 	else
 		return (1);
+}
+
+/**
+ * _strcat - concatenate two strings
+ * @s1: 1st string
+ * @s2: 2nd string
+ * @between: char in the middle
+ * Return: new full string
+ * On failure NULL
+ */
+char *_strcat(char *s1, char *s2, char between)
+{
+	char *newStr;
+	size_t i, size1, total_size;
+
+	if (!s1 && !s2)
+		return (NULL);
+
+	size1 = _strlen(s1) + ((between != -1) ? 1 : 0);
+	total_size = size1 + _strlen(s2);
+	newStr = malloc((total_size + 1) * sizeof(*newStr));
+	if (newStr == NULL)
+		return (NULL);
+
+	for (i = 0; i < total_size; i++)
+	{
+		if (between != -1 && i == size1 - 1)
+			newStr[i] = between;
+		else
+			newStr[i] = (i < size1) ? s1[i] : s2[i - size1];
+	}
+	newStr[total_size] = '\0';
+
+	return (newStr);
 }
