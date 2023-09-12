@@ -79,3 +79,19 @@ char *convertUnsignedNum(unsigned long num)
 	c[d] = '\0';
 	return (c);
 }
+
+/**
+ * _isPositiveNumber - checks if a string is actually a positive number
+ * @str: string to be checked
+ * Return: 1 if string is a number, 0 if not
+ */
+int _isPositiveNumber(char *str)
+{
+	while (*str)
+	{
+		if (*str < '0' || *str > '9')
+			return (0);
+		str++;
+	}
+	return (1);
+}
