@@ -19,6 +19,21 @@ extern char **environ;
 /************* STRUCTURES ************/
 
 /**
+ * struct node - singly linked list
+ * @d_ptr: pointer to the data
+ * @data_type: data type of the given data
+ * @next: points to the next node
+ *
+ * Description: structure of a singly linked list node
+ */
+typedef struct node
+{
+	void *d_ptr;
+	char data_type;
+	struct node *next;
+} node;
+
+/**
  * struct session_info - struct for session_info
  * @status: current status code
  * @iter_num: current iteration number
@@ -73,5 +88,12 @@ void _EOF(s_info s_info, ssize_t line_size);
 
 /* handelers functions */
 char *search_PATH(s_info *s_i, char *cmd);
+
+/* lists functions */
+node *create_list(void *data, char data_type);
+node *append_node(node *head, void *data, char data_type);
+node *insert_node(node *head, int index, void *data, char type);
+void free_list(node *head, int keep_pointers);
+size_t print_list(const node *h);
 
 #endif
