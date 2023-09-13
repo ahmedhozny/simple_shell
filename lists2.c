@@ -21,6 +21,24 @@ node *get_node(list *list, unsigned int index)
 }
 
 /**
+ * amend_node - changes data in a node
+ * @list: list to be accessed
+ * @index: index of the node needed
+ * @data: data to be stored in the node
+ *
+ * Return: pointer to the amended node, NULL otherwise
+ */
+node *amend_node(list *list, unsigned int index, void *data)
+{
+	node *c = get_node(list, index);
+
+	if (c == NULL)
+		return (NULL);
+	c->d_ptr = data;
+	return (c);
+}
+
+/**
  * delete_node - deletes the node at specified index
  * @list: list to be modified
  * @index: index of the note to be removed
