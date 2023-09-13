@@ -19,7 +19,7 @@ extern char **environ;
 /************* STRUCTURES ************/
 
 /**
- * struct node - singly linked list
+ * struct node - node of singly linked
  * @d_ptr: pointer to the data
  * @data_type: data type of the given data
  * @next: points to the next node
@@ -29,9 +29,21 @@ extern char **environ;
 typedef struct node
 {
 	void *d_ptr;
-	char data_type;
 	struct node *next;
 } node;
+
+/**
+ * struct list - creates singly linked list
+ * @data_type: data type of the given data
+ * @head: points to the head node
+ *
+ * Description: structure of a singly linked list node
+ */
+typedef struct list
+{
+	char data_type;
+	struct node *head;
+} list;
 
 /**
  * struct session_info - struct for session_info
@@ -90,10 +102,13 @@ void _EOF(s_info s_info, ssize_t line_size);
 char *search_PATH(s_info *s_i, char *cmd);
 
 /* lists functions */
-node *create_list(void *data, char data_type);
-node *append_node(node *head, void *data, char data_type);
-node *insert_node(node *head, int index, void *data, char type);
-void free_list(node *head, int keep_pointers);
-size_t print_list(const node *h);
+list *create_list(char type);
+node *append_node(list *list, void *data);
+node *insert_node(list *list, int index, void *data);
+void free_list(list *list, int keep_pointers);
+size_t print_list(const list *h);
+node *get_node(list *list, unsigned int index);
+int delete_node(list *list, unsigned int index);
+int list_size(list *list);
 
 #endif

@@ -2,49 +2,47 @@
 
 /**
  * create_list - creates the first node of a new list
- * @data: data to be stored in the node
  * @type: data type of the data parameter
  *
  * Return: pointer to list header, NULL on failure
  */
-node *create_list(void *data, char type)
+list *create_list(char type)
 {
-	node *head;
+	list *list;
 
-	head = malloc(sizeof(node));
-	if (head == NULL)
+	list = malloc(sizeof(list));
+	if (list == NULL)
 		return (NULL);
-	head->d_ptr = data;
-	head->data_type = type;
-	head->next = NULL;
-	return (head);
+	list->data_type = type;
+	return (list);
 }
 
 /**
  * append_node - adds a new node at the end of a list
- * @head: A pointer the head of the list.
+ * @list: list to be modified
  * @data: data to be stored in the node
  * @type: data type of the data parameter
  *
  * Return: pointer to list header, NULL on failure
  */
-node *append_node(node *head, void *data, char type)
+node *append_node(list *list, void *data)
 {
 	node *new_node;
 	node *temp;
 
+	if (!list)
+		return (NULL);
 	new_node = malloc(sizeof(node));
 	if (!new_node)
 		return (NULL);
 	new_node->d_ptr = data;
-	new_node->data_type = type;
 	new_node->next = NULL;
-	if (head == NULL)
+	if (list->head == NULL)
 	{
-		head = new_node;
-		return (head);
+		list->head = new_node;
+		return (new_node);
 	}
-	temp = head;
+	temp = list->head;
 	while (temp->next != NULL)
 		temp = temp->next;
 	temp->next = new_node;
@@ -53,32 +51,31 @@ node *append_node(node *head, void *data, char type)
 
 /**
  * insert_node - adds a new node at desired index of a list
- * @head: A pointer the head of the list.
+ * @list: list to be modified
  * @index: the desired index
  * @data: data to be stored in the node
  * @type: data type of the data parameter
  *
  * Return: pointer to list header, NULL on failure
  */
-node *insert_node(node *head, int index, void *data, char type)
+node *insert_node(list *list, int index, void *data)
 {
 	unsigned int i;
 	node *new_node;
-	node *prev = head;
+	node *prev = list->head;
 
 	new_node = malloc(sizeof(node));
 	if (!new_node)
 		return (NULL);
 
 	new_node->d_ptr = data;
-	new_node->data_type = type;
 	new_node->next = NULL;
 
 	if (index == 0)
 	{
-		new_node->next = head;
-		head = new_node;
-		return (head);
+		new_node->next = list->head;
+		list->head = new_node;
+		return (new_node);
 	}
 
 	for (i = 0; prev && i < index; i++)
@@ -89,8 +86,7 @@ node *insert_node(node *head, int index, void *data, char type)
 			prev->next = new_node;
 			return (new_node);
 		}
-		else
-			prev = prev->next;
+		prev = prev->next;
 	}
 
 	return (NULL);
@@ -98,40 +94,42 @@ node *insert_node(node *head, int index, void *data, char type)
 
 /**
  * free_list - adds a new node at desired index of a list
- * @head: A pointer the head of the list.
+ * @list: list to be freed
  * @keep_pointers: [boolean] 0 to delete original pointers, 1 to keep
  */
-void free_list(node *head, int keep_pointers)
+void free_list(list *list, int keep_pointers)
 {
 	node *temp;
 
-	while (head != NULL)
+	while (list->head != NULL)
 	{
-		temp = head->next;
+		temp = list->head->next;
 		if (!keep_pointers)
-			free(head->d_ptr);
-		free(head);
-		head = temp;
+			free(list->head->d_ptr);
+		free(list->head);
+		list->head = temp;
 	}
 }
 
 /**
  * print_list -Prints elements of the list
  * [WARNING] Currently able to print strings only
- * @h: head of list given
+ * @list: list to be accessed
  * Return: number of elements in list
  */
-size_t print_list(const node *h)
+size_t print_list(const list *list)
 {
 	size_t size = 0;
+	node *c = list->head;
 
-	while (h != NULL)
+	while (c != NULL)
 	{
-		if (h->d_ptr == NULL)
+		if (c->d_ptr == NULL)
 			_puts("(nil)");
 		else
-			_puts((char *)h->d_ptr);
-		h = h->next;
+			_puts((char *)c->d_ptr);
+		_puts("\n");
+		c = c->next;
 		size++;
 	}
 
