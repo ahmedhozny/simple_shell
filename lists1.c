@@ -21,7 +21,6 @@ list *create_list(char type)
  * append_node - adds a new node at the end of a list
  * @list: list to be modified
  * @data: data to be stored in the node
- * @type: data type of the data parameter
  *
  * Return: pointer to list header, NULL on failure
  */
@@ -54,7 +53,6 @@ node *append_node(list *list, void *data)
  * @list: list to be modified
  * @index: the desired index
  * @data: data to be stored in the node
- * @type: data type of the data parameter
  *
  * Return: pointer to list header, NULL on failure
  */

@@ -110,5 +110,6 @@ size_t print_list(const list *h);
 node *get_node(list *list, unsigned int index);
 int delete_node(list *list, unsigned int index);
 int list_size(list *list);
+node *amend_node(list *list, unsigned int index, void *data);
 
 #endif
