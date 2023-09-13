@@ -34,7 +34,7 @@ int main(void)
 				child_pid = fork();
 			if (child_pid == 0)
 			{
-				if (execve(av[0], av, environ) == -1)
+				if (execve(av[0], av, environment_to_array(&s_i)) == -1)
 					perror("Error");
 			}
 			else

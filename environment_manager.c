@@ -41,7 +41,7 @@ char **environment_to_array(s_info *s_i)
 	char **array;
 	int i, size;
 
-	array = malloc(list_size(s_i->env_keys) * sizeof(char *));
+	array = malloc((list_size(s_i->env_keys) + 1) * sizeof(char *));
 	if (array == NULL)
 		return (NULL);
 
