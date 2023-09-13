@@ -58,7 +58,8 @@ struct session_info
 {
 	unsigned int status;
 	unsigned long iter_num;
-	char **env;
+	list *env_keys;
+	list *env_vals;
 };
 typedef struct session_info s_info;
 
@@ -111,5 +112,11 @@ node *get_node(list *list, unsigned int index);
 int delete_node(list *list, unsigned int index);
 int list_size(list *list);
 node *amend_node(list *list, unsigned int index, void *data);
+
+/* environment functions */
+int init_environment(s_info *s_i);
+char **environment_to_array(s_info *s_i);
+node *get_environment(s_info *s_i, char *key);
+void set_environment(s_info *s_i, char *key, char *val);
 
 #endif

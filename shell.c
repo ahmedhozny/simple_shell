@@ -15,7 +15,7 @@ int main(void)
 	ssize_t r;
 	s_info s_i;
 
-	s_i.env = environ;
+	init_environment(&s_i);
 	av[1] = NULL;
 	while (1)
 	{
@@ -34,7 +34,7 @@ int main(void)
 				child_pid = fork();
 			if (child_pid == 0)
 			{
-				if (execve(av[0], av, s_i.env) == -1)
+				if (execve(av[0], av, environ) == -1)
 					perror("Error");
 			}
 			else
