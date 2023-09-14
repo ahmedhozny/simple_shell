@@ -38,6 +38,8 @@ char **strtow(char *str, char delim)
 			}
 			for (k = 0; k < tmp_size; k++)
 				strArr[j][k] = str[(i - tmp_size + 1) + k];
+
+			strArr[j][tmp_size] = '\0';
 			tmp_size = 0, j++;
 		}
 	}

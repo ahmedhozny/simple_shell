@@ -10,14 +10,11 @@
  */
 int main(int ac, char **av)
 {
-	s_info s_i;
-
+	s_info s_i = {0, 1, NULL, NULL};
 	(void)ac;
 	(void)av;
 
-	s_i.status = 0, s_i.iter_num = 1;
 	init_environment(&s_i);
-
 	shell(&s_i);
 
 	exit(s_i.status);

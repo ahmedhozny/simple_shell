@@ -14,6 +14,7 @@ int shell(s_info *s_i)
 	while (1)
 	{
 		bigFree(cmd, -1);
+		cmd = NULL;
 		if (isatty(STDIN_FILENO))
 		{
 			_puts(PROMPT);
@@ -23,7 +24,6 @@ int shell(s_info *s_i)
 		line[_strlen(line) - 1] = '\0';
 
 		cmd = strtow(line, ' ');
-		free(line);
 		if (!cmd)
 			continue;
 		if (exec_builtin(s_i, cmd, cmd[0]))
@@ -34,6 +34,7 @@ int shell(s_info *s_i)
 
 		if (!s_i->status)
 			_execute(s_i, cmd[0], cmd);
+		free(line);
 	}
 	return (0);
 }
