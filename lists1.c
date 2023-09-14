@@ -10,7 +10,7 @@ list *create_list(char type)
 {
 	list *list;
 
-	list = malloc(sizeof(list));
+	list = malloc(sizeof(*list));
 	if (list == NULL)
 		return (NULL);
 	list->data_type = type;
@@ -58,7 +58,7 @@ node *append_node(list *list, void *data)
  */
 node *insert_node(list *list, int index, void *data)
 {
-	unsigned int i;
+	int i;
 	node *new_node;
 	node *prev = list->head;
 

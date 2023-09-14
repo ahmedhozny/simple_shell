@@ -40,19 +40,19 @@ int command_validity_checker(s_info *s_i, char *cmd, int print_error)
  * @print_error: [boolean] whether error message will be printed
  * Return: 0 if code is valid; -1 otherwise.
  */
-int exitcode_validity_checker(s_info s_i, char *exit_code, int print_error)
+int exitcode_validity_checker(s_info *s_i, char *exit_code, int print_error)
 {
 	char *temp;
 
 	if (!_isPositiveNumber(exit_code))
 	{
-		s_i.status = 2;
+		s_i->status = 2;
 		if (print_error)
 		{
 			/* pwd needed */
 			_puts("[PWD here]");
 			_puts(": ");
-			temp = convertUnsignedNum(s_i.iter_num);
+			temp = convertUnsignedNum(s_i->iter_num);
 			_puts(temp);
 			free(temp);
 			_puts(": exit: Illegal number: ");

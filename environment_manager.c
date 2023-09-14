@@ -21,8 +21,10 @@ int init_environment(s_info *s_i)
 	for (i = 0; environ[i] != NULL; i++)
 	{
 		split = strtow(environ[i], '=');
-		append_node(keys, split[0]);
-		append_node(values, split[1]);
+		if (!split)
+			return (0);
+		if (!append_node(keys, split[0]) || !append_node(values, split[1]))
+			return (0);
 	}
 	s_i->env_keys = keys;
 	s_i->env_vals = values;
@@ -41,16 +43,21 @@ char **environment_to_array(s_info *s_i)
 	char **array;
 	int i, size;
 
-	array = malloc((list_size(s_i->env_keys) + 1) * sizeof(char *));
+	size = list_size(s_i->env_keys);
+	array = malloc((size + 1) * sizeof(*array));
 	if (array == NULL)
 		return (NULL);
 
-	size = list_size(s_i->env_keys);
 	key = s_i->env_keys->head;
 	val = s_i->env_vals->head;
 	for (i = 0; i < size; i++)
 	{
 		array[i] = _strcat(key->d_ptr, val->d_ptr, '=');
+		if (!array[i])
+		{
+			bigFree(array, i);
+			return (NULL);
+		}
 		key = key->next;
 		val = val->next;
 	}
@@ -58,41 +65,50 @@ char **environment_to_array(s_info *s_i)
 }
 
 /**
- * get_environment - gets value associated with a given key in the environment
+ * _getenv - gets value associated with a given key in the environment
  * @s_i: session info
  * @key: key to search for in the environment
  *
  * Return: pointer to the desired node if found, NULL if not found.
  */
-node *get_environment(s_info *s_i, char *key)
+node *_getenv(s_info *s_i, char *key)
 {
-	node *c = s_i->env_keys->head;
+	node *keys = s_i->env_keys->head;
+	node *vals = s_i->env_vals->head;
 
-	while (c != NULL)
+	while (keys && vals)
 	{
-		if (!_strcmp(c->d_ptr, key))
-			break;
-		c = c->next;
+		if (!_strcmp(keys->d_ptr, key))
+			return (vals);
+		vals = vals->next;
+		keys = keys->next;
 	}
 
-	return (c);
+	return (NULL);
 }
 
 /**
- * set_environment - sets or updates a key-value pair in the environment
+ * _setenv - sets or updates a key-value pair in the environment
  * @s_i: session info
  * @key: the key for the environment variable
  * @val: the value to associate with the key
+ *
+ * Return: 0 on Success, 1 on failure
  */
-void set_environment(s_info *s_i, char *key, char *val)
+int _setenv(s_info *s_i, char *key, char *val)
 {
-	node *c = get_environment(s_i, key);
+	node *c = _getenv(s_i, key);
 
 	if (c == NULL)
 	{
-		append_node(s_i->env_keys, key);
-		append_node(s_i->env_keys, val);
+		if (!append_node(s_i->env_keys, key) || !append_node(s_i->env_vals, val))
+			return (1);
 	}
 	else
-		amend_node(s_i->env_vals, c - s_i->env_keys->head, val);
+	{
+		if (!amend_node(s_i->env_vals, c - s_i->env_keys->head, val))
+			return (1);
+	}
+
+	return (0);
 }

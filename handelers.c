@@ -11,8 +11,11 @@
 char *search_PATH(s_info *s_i, char *cmd)
 {
 	char **path, *full_cmd;
+	node *pathenv = _getenv(s_i, "PATH");
 
-	path = getArgs(getenv("PATH"), ":");
+	if (!pathenv)
+		return (NULL);
+	path = strtow(pathenv->d_ptr, ':');
 	if (!path)
 	{
 		s_i->status = 97;

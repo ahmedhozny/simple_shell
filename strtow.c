@@ -3,6 +3,7 @@
 /**
  * strtow - splits a string into words
  * @str: the whole string
+ * @delim: delimiter between strings
  *
  * Return: pointer to the array of strings
  * or NULL if something went wrong
