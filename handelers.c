@@ -15,12 +15,12 @@ char *search_PATH(s_info *s_i, char *cmd)
 	int i = 0;
 
 	if (!pathenv)
-		return (NULL);
+		return (free(cmd), NULL);
 	path = strtow(pathenv->d_ptr, ':');
 	if (!path)
 	{
 		s_i->status = 97;
-		return (NULL);
+		return (free(cmd), NULL);
 	}
 	while (path[i])
 	{
@@ -29,15 +29,18 @@ char *search_PATH(s_info *s_i, char *cmd)
 		{
 			bigFree(path, -1);
 			s_i->status = 97;
-			return (NULL);
+			return (free(cmd), NULL);
 		}
 		if (!access(full_cmd, X_OK))
-			return (bigFree(path, -1), full_cmd);
+		{
+			bigFree(path, -1);
+			return (free(cmd), full_cmd);
+		}
 		free(full_cmd);
 		i++;
 	}
 	bigFree(path, -1);
-	return (NULL);
+	return (free(cmd), NULL);
 }
 
 /**

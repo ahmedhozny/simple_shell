@@ -10,7 +10,7 @@ int init_environment(s_info *s_i)
 {
 	list *keys, *values;
 	unsigned int i;
-	char **split = NULL;
+	char **splitted = NULL;
 
 	keys = create_list('s');
 	values = create_list('s');
@@ -24,21 +24,21 @@ int init_environment(s_info *s_i)
 
 	for (i = 0; environ[i] != NULL; i++)
 	{
-		split = strtow(environ[i], '=');
-		if (!split)
+		splitted = split(environ[i], '=');
+		if (!splitted)
 		{
 			free_list(keys, 0);
 			free_list(values, 0);
 			return (0);
 		}
-		if (!append_node(keys, split[0]) || !append_node(values, split[1]))
+		if (!append_node(keys, splitted[0]) || !append_node(values, splitted[1]))
 		{
-			bigFree(split, -1);
+			bigFree(splitted, 2);
 			free_list(keys, 0);
 			free_list(values, 0);
 			return (0);
 		}
-		free(split);
+		free(splitted);
 	}
 	s_i->env_keys = keys;
 	s_i->env_vals = values;

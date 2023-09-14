@@ -67,6 +67,7 @@ void bigFree(char **ptr, int size)
  */
 void cleanup(s_info *s_i)
 {
+	bigFree(s_i->cur_cmd, -1);
 	free_list(s_i->env_keys, 0);
 	free_list(s_i->env_vals, 0);
 	free(s_i->cur_line);

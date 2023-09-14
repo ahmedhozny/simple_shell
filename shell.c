@@ -8,14 +8,13 @@
  */
 int shell(s_info *s_i)
 {
-	char **cmd = NULL;
 	size_t len = 0;
 
 	while (1)
 	{
 		free(s_i->cur_line);
-		bigFree(cmd, -1);
-		cmd = NULL, s_i->cur_line = NULL;
+		bigFree(s_i->cur_cmd, -1);
+		s_i->cur_cmd = NULL, s_i->cur_line = NULL;
 		if (isatty(STDIN_FILENO))
 		{
 			_puts(PROMPT);
@@ -25,17 +24,17 @@ int shell(s_info *s_i)
 			_EOF(s_i);
 
 		s_i->cur_line[_strlen(s_i->cur_line) - 1] = '\0';
-		cmd = strtow(s_i->cur_line, ' ');
-		if (!cmd)
+		s_i->cur_cmd = strtow(s_i->cur_line, ' ');
+		if (!s_i->cur_cmd)
 			continue;
-		if (exec_builtin(s_i, cmd, cmd[0]))
+		if (exec_builtin(s_i, s_i->cur_cmd, s_i->cur_cmd[0]))
 			continue;
-		if (access(cmd[0], X_OK) == -1)
-			cmd[0] = search_PATH(s_i, cmd[0]);
-		command_validity_checker(s_i, cmd[0], 1);
+		if (access(s_i->cur_cmd[0], X_OK) == -1)
+			s_i->cur_cmd[0] = search_PATH(s_i, s_i->cur_cmd[0]);
+		command_validity_checker(s_i, s_i->cur_cmd[0], 1);
 
 		if (!s_i->status)
-			_execute(s_i, cmd[0], cmd);
+			_execute(s_i, s_i->cur_cmd[0], s_i->cur_cmd);
 	}
 	return (0);
 }

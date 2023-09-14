@@ -49,6 +49,7 @@ typedef struct list
  * @status: current status code
  * @iter_num: current iteration number
  * @cur_line: current line of input
+ * @cur_cmd: current command array
  * @env_keys: list of environment keys
  * @env_vals: list of environment values
  *
@@ -60,6 +61,7 @@ typedef struct session_info
 	unsigned int status;
 	unsigned long iter_num;
 	char *cur_line;
+	char **cur_cmd;
 	list *env_keys;
 	list *env_vals;
 } s_info;
@@ -90,6 +92,7 @@ size_t _strlen(const char *str);
 int _strcmp(char *s1, char *s2);
 char *_strcat(char *s1, char *s2, char between);
 char **strtow(char *str, char delim);
+char **split(char *str, char delim);
 char **getArgs(const char *str, const char *delim);
 
 /* number functions */
@@ -112,7 +115,7 @@ int _execute(s_info *s_i, char *arg0, char **argv);
 
 /* system functions */
 void exit_sh(s_info *s_i, char **argv);
-void exit_with_status(s_info *s_i, char **argv);
+void exit_with_status(s_info *s_i, char *exit_code);
 void _EOF(s_info *s_i);
 
 /* handelers functions */

@@ -43,3 +43,45 @@ char **strtow(char *str, char delim)
 	strArr[j] = NULL;
 	return (strArr);
 }
+
+/**
+ * split - splits a string into 2 strings
+ * @str: the whole string
+ * @delim: delimiter between strings
+ *
+ * Return: pointer to the array of strings
+ * or NULL if something went wrong
+ */
+char **split(char *str, char delim)
+{
+	char **strArr;
+	int i, k, size, size1 = 0;
+
+	if (str == NULL || *str == '\0')
+		return (NULL);
+
+	size = _strlen(str);
+	strArr = malloc(sizeof(*strArr) * 2);
+	if (strArr == NULL)
+		return (NULL);
+
+	strArr[0] = NULL, strArr[1] = NULL;
+	for (i = 0; str[i] != '\0'; i++)
+	{
+		if (str[i] == delim)
+			break;
+		size1++;
+	}
+
+	strArr[0] = malloc(sizeof(**strArr) * (size1 + 1));
+	strArr[1] = malloc(sizeof(**strArr) * (size - size1));
+	if (!strArr[0] || !strArr[1])
+		return (bigFree(strArr, 2), NULL);
+	for (k = 0; k < size1; k++)
+		strArr[0][k] = str[k];
+	for (k = 0; k < (size - size1); k++)
+		strArr[1][k] = str[k + size1 + 1];
+
+	strArr[0][size1] = '\0', strArr[1][size - size1 - 1] = '\0';
+	return (strArr);
+}

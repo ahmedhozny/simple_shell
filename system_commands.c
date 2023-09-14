@@ -7,29 +7,25 @@
  */
 void exit_sh(s_info *s_i, char **argv)
 {
-	if (_strcmp(argv[0], "exit"))
-		return;
 	if (argv[1] == NULL)
 	{
 		cleanup(s_i);
-		bigFree(argv, -1);
 		exit((int)s_i->status);
 	}
-	exit_with_status(s_i, argv);
+	exit_with_status(s_i, argv[1]);
 }
 
 /**
  * exit_with_status - exit program with specified code
  * @s_i: session info
- * @argv: arguments to be checked
+ * @exit_code: string of the exit status
  */
-void exit_with_status(s_info *s_i, char **argv)
+void exit_with_status(s_info *s_i, char *exit_code)
 {
-	int code = _atoi(argv[1]);
+	int code = _atoi(exit_code);
 
-	if (!exitcode_validity_checker(s_i, argv[1], 1))
+	if (!exitcode_validity_checker(s_i, exit_code, 1))
 	{
-		bigFree(argv, -1);
 		cleanup(s_i);
 		exit(code);
 	}
