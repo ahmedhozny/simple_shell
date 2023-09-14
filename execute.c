@@ -29,5 +29,5 @@ int _execute(s_info *s_i, char *arg0, char **argv)
 
 	wait(&status);
 	s_i->status = WEXITSTATUS(status);
-	return (-1);
+	return ((s_i->status != 0) ? -1 : 0);
 }

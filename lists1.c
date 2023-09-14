@@ -8,13 +8,13 @@
  */
 list *create_list(char type)
 {
-	list *list;
+	list *newList;
 
-	list = malloc(sizeof(*list));
-	if (list == NULL)
+	newList = malloc(sizeof(list));
+	if (!newList)
 		return (NULL);
-	list->data_type = type;
-	return (list);
+	newList->data_type = type;
+	return (newList);
 }
 
 /**

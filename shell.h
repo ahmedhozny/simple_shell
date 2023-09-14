@@ -136,4 +136,7 @@ node *_getenv(s_info *s_i, char *key);
 int _setenv(s_info *s_i, char *key, char *val);
 int _unsetenv(s_info *s_i, char *key);
 
+/* SHELL functions */
+int shell(s_info *s_i);
+
 #endif
