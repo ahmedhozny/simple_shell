@@ -114,6 +114,7 @@ void _EOF(s_info *s_i, ssize_t line_size);
 
 /* handelers functions */
 char *search_PATH(s_info *s_i, char *cmd);
+int exec_builtin(s_info *s_i, char **args, char *cmd);
 
 /* lists functions */
 list *create_list(char type);

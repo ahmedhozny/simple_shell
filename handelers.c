@@ -38,28 +38,24 @@ char *search_PATH(s_info *s_i, char *cmd)
 }
 
 /**
- * get_builtin - get function that corresponds
- * to the called built-in
- * @str: string to the called function
+ * exec_builtin - execute proper built-in function
+ * @s_i: session info
+ * @args: arguments to the built-in command
+ * @cmd: string to the called function
  *
- * Return: pointer to proper function
+ * Return: 1 on Success, 0 Otherwise
  */
-int (*get_builtin(char *str))(s_info *s_i, char **args)
+int exec_builtin(s_info *s_i, char **args, char *cmd)
 {
-	builtin b_i[] = {
-		{"env", print_env},
-		{"setenv", _setenv},
-		{"unsetenv", _unsetenv},
-		{"exit", exit_sh},
-		{NULL, NULL}
-	};
-	int i = 0;
-
-	while (b_i[i].str)
-	{
-		if (!_strcmp(b_i[i].str, str))
-			return (b_i[i].func);
-		i++;
-	}
-	return (NULL);
+	if (!_strcmp(cmd, "env"))
+		print_env(s_i);
+	else if (!_strcmp(cmd, "setenv"))
+		_setenv(s_i, args[0], args[1]);
+	else if (!_strcmp(cmd, "unsetenv"))
+		_unsetenv(s_i, args[0]);
+	else if (!_strcmp(cmd, "exit"))
+		exit_sh(s_i, args);
+	else
+		return (0);
+	return (1);
 }
