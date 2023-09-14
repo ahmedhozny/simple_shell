@@ -1,6 +1,28 @@
 #include "shell.h"
 
 /**
+ * get_index - returns index of specified key
+ * @list: list to be accessed
+ * @key: key of the node needed
+ *
+ * Return: pointer to the node found, NULL otherwise
+ */
+int get_index(list *list, char *key)
+{
+	node *n = list->head;
+	unsigned int index = 0;
+
+	while (n)
+	{
+		if (!_strcmp(n->d_ptr, key))
+			return (index);
+		n = n->next;
+		index++;
+	}
+	return (-1);
+}
+
+/**
  * get_node - returns the node at specified index
  * @list: list to be accessed
  * @index: index of the node needed
@@ -43,7 +65,7 @@ node *amend_node(list *list, unsigned int index, void *data)
  * @list: list to be modified
  * @index: index of the note to be removed
  *
- * Return: 1 on success, 0 otherwise
+ * Return: 0 on success, 1 otherwise
  */
 int delete_node(list *list, unsigned int index)
 {
@@ -52,20 +74,20 @@ int delete_node(list *list, unsigned int index)
 	node *to_delete = NULL;
 
 	if (list->head == NULL)
-		return (0);
+		return (1);
 
 	c = list->head;
 	if (index == 0)
 	{
 		list->head = list->head->next;
 		free(c);
-		return (1);
+		return (0);
 	}
 
 	while (i < index - 1)
 	{
 		if (!c || !(c->next))
-			return (0);
+			return (1);
 		c = c->next;
 		i++;
 	}
@@ -74,7 +96,7 @@ int delete_node(list *list, unsigned int index)
 	c->next = to_delete->next;
 	free(to_delete);
 
-	return (1);
+	return (0);
 }
 
 /**

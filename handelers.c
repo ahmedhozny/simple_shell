@@ -36,3 +36,32 @@ char *search_PATH(s_info *s_i, char *cmd)
 	}
 	return (NULL);
 }
+
+/**
+ * get_builtin - get function that corresponds
+ * to the called built-in
+ * @str: string to the called function
+ *
+ * Return: pointer to proper function
+ */
+int (*get_builtin(char *str))(s_info *s_i, char **args)
+{
+	builtin b_i[] = {
+		{"env", print_env},
+		{"setenv", _setenv},
+		{"unsetenv", _unsetenv},
+		{"exit", exit_sh},
+		{"cd", change_dir},
+		{"alias", alias_handler}
+		{NULL, NULL}
+	};
+	int i = 0;
+
+	while (b_i[i].str)
+	{
+		if (!_strcmp(b_i[i].str, str))
+			return (b_i[i].func);
+		i++;
+	}
+	return (NULL);
+}

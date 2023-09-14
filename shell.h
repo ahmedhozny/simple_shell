@@ -54,14 +54,27 @@ typedef struct list
  * Description: struct to store all needed information
  * about the current session
  */
-struct session_info
+typedef struct session_info
 {
 	unsigned int status;
 	unsigned long iter_num;
 	list *env_keys;
 	list *env_vals;
-};
-typedef struct session_info s_info;
+} s_info;
+
+/**
+ * struct builtin - struct for built-in cmd
+ * @str: string to cmd
+ * @func: pointer to the proper function
+ *
+ * Description: struct to choose
+ * the appropriate function to execute built-in commands
+ */
+typedef struct builtin
+{
+	char *str;
+	int (*func)(s_info *s_i, char **args);
+} builtin;
 
 /************* FUNCTIONS *************/
 
@@ -108,6 +121,7 @@ node *append_node(list *list, void *data);
 node *insert_node(list *list, int index, void *data);
 void free_list(list *list, int keep_pointers);
 size_t print_list(const list *h);
+int get_index(list *list, char *key);
 node *get_node(list *list, unsigned int index);
 int delete_node(list *list, unsigned int index);
 int list_size(list *list);
@@ -118,5 +132,6 @@ int init_environment(s_info *s_i);
 char **environment_to_array(s_info *s_i);
 node *_getenv(s_info *s_i, char *key);
 int _setenv(s_info *s_i, char *key, char *val);
+int _unsetenv(s_info *s_i, char *key);
 
 #endif

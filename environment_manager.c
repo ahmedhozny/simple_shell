@@ -73,18 +73,12 @@ char **environment_to_array(s_info *s_i)
  */
 node *_getenv(s_info *s_i, char *key)
 {
-	node *keys = s_i->env_keys->head;
-	node *vals = s_i->env_vals->head;
+	int index = get_index(s_i->env_keys, key);
 
-	while (keys && vals)
-	{
-		if (!_strcmp(keys->d_ptr, key))
-			return (vals);
-		vals = vals->next;
-		keys = keys->next;
-	}
+	if (index == -1)
+		return (NULL);
 
-	return (NULL);
+	return (get_node(s_i->env_vals, (unsigned int)index));
 }
 
 /**
@@ -93,22 +87,40 @@ node *_getenv(s_info *s_i, char *key)
  * @key: the key for the environment variable
  * @val: the value to associate with the key
  *
- * Return: 0 on Success, 1 on failure
+ * Return: 1 on Success, 0 on failure
  */
 int _setenv(s_info *s_i, char *key, char *val)
 {
-	node *c = _getenv(s_i, key);
+	node *value = _getenv(s_i, key);
 
-	if (c == NULL)
+	if (val == NULL)
 	{
 		if (!append_node(s_i->env_keys, key) || !append_node(s_i->env_vals, val))
-			return (1);
+			return (0);
 	}
 	else
-	{
-		if (!amend_node(s_i->env_vals, c - s_i->env_keys->head, val))
-			return (1);
-	}
+		value->d_ptr = val;
 
-	return (0);
+	return (1);
+}
+
+/**
+ * _unsetenv - unsets (deletes) key-value pair in the environment
+ * @s_i: session info
+ * @key: the key for the environment variable
+ *
+ * Return: 1 on Success, 0 on failure
+ */
+int _unsetenv(s_info *s_i, char *key)
+{
+	int index = get_index(s_i->env_keys, key);
+
+	if (index == -1)
+		return (0);
+
+	if (!delete_node(s_i->env_keys, (unsigned int)index) ||
+		!delete_node(s_i->env_vals, (unsigned int)index))
+		return (0);
+
+	return (1);
 }
