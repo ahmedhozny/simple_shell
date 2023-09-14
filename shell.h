@@ -130,6 +130,7 @@ node *amend_node(list *list, unsigned int index, void *data);
 /* environment functions */
 int init_environment(s_info *s_i);
 char **environment_to_array(s_info *s_i);
+void print_env(s_info *s_i);
 node *_getenv(s_info *s_i, char *key);
 int _setenv(s_info *s_i, char *key, char *val);
 int _unsetenv(s_info *s_i, char *key);

@@ -51,8 +51,6 @@ int (*get_builtin(char *str))(s_info *s_i, char **args)
 		{"setenv", _setenv},
 		{"unsetenv", _unsetenv},
 		{"exit", exit_sh},
-		{"cd", change_dir},
-		{"alias", alias_handler}
 		{NULL, NULL}
 	};
 	int i = 0;
