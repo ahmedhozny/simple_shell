@@ -48,6 +48,7 @@ typedef struct list
  * struct session_info - struct for session_info
  * @status: current status code
  * @iter_num: current iteration number
+ * @cur_line: current line of input
  * @env_keys: list of environment keys
  * @env_vals: list of environment values
  *
@@ -58,6 +59,7 @@ typedef struct session_info
 {
 	unsigned int status;
 	unsigned long iter_num;
+	char *cur_line;
 	list *env_keys;
 	list *env_vals;
 } s_info;
@@ -103,14 +105,15 @@ int exitcode_validity_checker(s_info *s_i, char *exit_code, int print_error);
 /* memory functions */
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 void bigFree(char **ptr, int size);
+void cleanup(s_info *s_i);
 
 /* execute functions */
 int _execute(s_info *s_i, char *arg0, char **argv);
 
 /* system functions */
 void exit_sh(s_info *s_i, char **argv);
-void exit_with_status(s_info *s_i, char *code);
-void _EOF(s_info *s_i, ssize_t line_size);
+void exit_with_status(s_info *s_i, char **argv);
+void _EOF(s_info *s_i);
 
 /* handelers functions */
 char *search_PATH(s_info *s_i, char *cmd);

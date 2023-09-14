@@ -12,6 +12,7 @@ char *search_PATH(s_info *s_i, char *cmd)
 {
 	char **path, *full_cmd;
 	node *pathenv = _getenv(s_i, "PATH");
+	int i = 0;
 
 	if (!pathenv)
 		return (NULL);
@@ -21,19 +22,21 @@ char *search_PATH(s_info *s_i, char *cmd)
 		s_i->status = 97;
 		return (NULL);
 	}
-	while (path && *path)
+	while (path[i])
 	{
-		full_cmd = _strcat(*path, cmd, (*path)[0]);
+		full_cmd = _strcat(path[i], cmd, path[i][0]);
 		if (!full_cmd)
 		{
+			bigFree(path, -1);
 			s_i->status = 97;
 			return (NULL);
 		}
 		if (!access(full_cmd, X_OK))
-			return (full_cmd);
+			return (bigFree(path, -1), full_cmd);
 		free(full_cmd);
-		path++;
+		i++;
 	}
+	bigFree(path, -1);
 	return (NULL);
 }
 

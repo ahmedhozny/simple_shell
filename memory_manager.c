@@ -44,7 +44,7 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
  */
 void bigFree(char **ptr, int size)
 {
-	int i = 0;
+	int i;
 
 	if (!ptr)
 		return;
@@ -57,4 +57,17 @@ void bigFree(char **ptr, int size)
 			free(ptr[i]);
 
 	free(ptr);
+}
+
+/**
+ * cleanup - frees everything at the end
+ * @s_i: session info
+ *
+ * Return: void
+ */
+void cleanup(s_info *s_i)
+{
+	free_list(s_i->env_keys, 0);
+	free_list(s_i->env_vals, 0);
+	free(s_i->cur_line);
 }

@@ -10,21 +10,35 @@ int init_environment(s_info *s_i)
 {
 	list *keys, *values;
 	unsigned int i;
-	char **split;
+	char **split = NULL;
 
 	keys = create_list('s');
 	values = create_list('s');
 
 	if (keys == NULL || values == NULL)
+	{
+		free_list(keys, 0);
+		free_list(values, 0);
 		return (0);
+	}
 
 	for (i = 0; environ[i] != NULL; i++)
 	{
 		split = strtow(environ[i], '=');
 		if (!split)
+		{
+			free_list(keys, 0);
+			free_list(values, 0);
 			return (0);
+		}
 		if (!append_node(keys, split[0]) || !append_node(values, split[1]))
+		{
+			bigFree(split, -1);
+			free_list(keys, 0);
+			free_list(values, 0);
 			return (0);
+		}
+		free(split);
 	}
 	s_i->env_keys = keys;
 	s_i->env_vals = values;

@@ -108,6 +108,7 @@ void free_list(list *list, int keep_pointers)
 		free(list->head);
 		list->head = temp;
 	}
+	free(list);
 }
 
 /**

@@ -32,10 +32,7 @@ char **strtow(char *str, char delim)
 		{
 			strArr[j] = malloc(sizeof(**strArr) * (tmp_size + 1));
 			if (strArr[j] == NULL)
-			{
-				bigFree(strArr, j);
-				return (NULL);
-			}
+				return (bigFree(strArr, j), NULL);
 			for (k = 0; k < tmp_size; k++)
 				strArr[j][k] = str[(i - tmp_size + 1) + k];
 

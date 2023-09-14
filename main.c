@@ -1,5 +1,17 @@
 #include "shell.h"
 
+s_info s_i = {0, 1, NULL, NULL, NULL};
+
+/**
+ * sigintHandler - entry point
+ * @signal: signal number
+ */
+void sigintHandler(int signal)
+{
+	cleanup(&s_i);
+	exit(signal);
+}
+
 /**
  * main - entry point
  * @ac: arguments count
@@ -10,12 +22,14 @@
  */
 int main(int ac, char **av)
 {
-	s_info s_i = {0, 1, NULL, NULL};
 	(void)ac;
 	(void)av;
 
-	init_environment(&s_i);
-	shell(&s_i);
+	signal(SIGINT, sigintHandler);
+	if (!init_environment(&s_i))
+		cleanup(&s_i);
+	else
+		shell(&s_i);
 
 	exit(s_i.status);
 }
