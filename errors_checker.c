@@ -9,19 +9,22 @@
  */
 int command_validity_error(s_info *s_i, char *cmd, int print_error)
 {
-	char *temp = NULL;
+	char *temp = NULL, *temp2 = NULL;
 
 	s_i->status = 127;
-	if (print_error)
-	{
-		/* pwd needed */
-		_putchar(BUF_FLUSH);
-		_puts("./hsh: ");
-		temp = convertUnsignedNum(s_i->iter_num);
-		if (!temp)
+	if (print_error) {
+		temp = _getenv(s_i, "_")->d_ptr;
+		temp2 = convertUnsignedNum(s_i->iter_num);
+		if (!temp || !temp2)
+		{
+			free(temp2);
 			return (-1);
+		}
+		_putchar(BUF_FLUSH);
 		_puts(temp);
-		free(temp);
+		_puts(": ");
+		_puts(temp2);
+		free(temp2);
 		_puts(": ");
 		_puts(cmd);
 		_puts(": not found\n");
@@ -39,19 +42,25 @@ int command_validity_error(s_info *s_i, char *cmd, int print_error)
  */
 int exitcode_validity_checker(s_info *s_i, char *exit_code, int print_error)
 {
-	char *temp;
+	char *temp, *temp2;
 
 	if (!_isPositiveNumber(exit_code))
 	{
 		s_i->status = 2;
 		if (print_error)
 		{
-			/* pwd needed */
+			temp = _getenv(s_i, "_")->d_ptr;
+			temp2 = convertUnsignedNum(s_i->iter_num);
+			if (!temp || !temp2)
+			{
+				free(temp2);
+				return (-1);
+			}
 			_putchar(BUF_FLUSH);
-			_puts("./hsh: ");
-			temp = convertUnsignedNum(s_i->iter_num);
 			_puts(temp);
-			free(temp);
+			_puts(": ");
+			_puts(temp2);
+			free(temp2);
 			_puts(": exit: Illegal number: ");
 			_puts(exit_code);
 			_putchar('\n');
