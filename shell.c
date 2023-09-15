@@ -11,7 +11,7 @@ int shell(s_info *s_i)
 	size_t len = 0;
 	char *tmp = NULL;
 
-	while (1)
+	while (++s_i->iter_num)
 	{
 		free(s_i->cur_line);
 		bigFree(s_i->cur_cmd, -1);

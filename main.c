@@ -1,6 +1,6 @@
 #include "shell.h"
 
-s_info s_i = {0, 1, NULL, NULL, NULL, NULL};
+s_info s_i = {0, 0, NULL, NULL, NULL, NULL};
 
 /**
  * sigintHandler - entry point
