@@ -1,2 +1,6 @@
 .*.c.swp
+.*.h.swp
 hsh
+TEST_SUITE
+allowed_functions
+runchecker.bash
