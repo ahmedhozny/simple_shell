@@ -100,3 +100,19 @@ char *_strcat(char *s1, char *s2, char between)
 
 	return (newStr);
 }
+
+/**
+ * *_strchr - searches for the first occurrence of a character in a string
+ * @str: string to search into
+ * @c: the character to search for
+ * Return: pointer to the found character
+ */
+char *_strchr(char *str, char c)
+{
+	do {
+		if (*str == c)
+			return (str);
+	} while (*str++ != '\0');
+
+	return (NULL);
+}

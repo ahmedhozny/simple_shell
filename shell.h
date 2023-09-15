@@ -94,6 +94,7 @@ char *_strdup(const char *str);
 size_t _strlen(const char *str);
 int _strcmp(char *s1, char *s2);
 char *_strcat(char *s1, char *s2, char between);
+char *_strchr(char *str, char c);
 char **strtow(char *str, char delim);
 char **split(char *str, char delim);
 char **getArgs(const char *str, const char *delim);
