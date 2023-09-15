@@ -12,6 +12,7 @@
 
 #define BUF_SIZE 1024
 #define BUF_FLUSH (-1)
+#define ERROR_FLUSH (-2)
 #define PROMPT "$ "
 
 extern char **environ;
@@ -102,7 +103,7 @@ int _atoi(char *s);
 int _isPositiveNumber(char *str);
 
 /* errors functions */
-int command_validity_checker(s_info *s_i, char *cmd, int print_error);
+int command_validity_error(s_info *s_i, char *cmd, int print_error);
 int exitcode_validity_checker(s_info *s_i, char *exit_code, int print_error);
 
 /* memory functions */
@@ -119,6 +120,7 @@ void exit_with_status(s_info *s_i, char *exit_code);
 void _EOF(s_info *s_i);
 
 /* handelers functions */
+char *break_cmd(char *cmd);
 char *search_PATH(s_info *s_i, char *cmd);
 int exec_builtin(s_info *s_i, char **args, char *cmd);
 
@@ -130,7 +132,7 @@ void free_list(list *list, int keep_pointers);
 size_t print_list(const list *h);
 int get_index(list *list, char *key);
 node *get_node(list *list, unsigned int index);
-int delete_node(list *list, unsigned int index);
+int delete_node(list *list, unsigned int index, int keep_pointers);
 int list_size(list *list);
 node *amend_node(list *list, unsigned int index, void *data);
 
@@ -139,8 +141,8 @@ int init_environment(s_info *s_i);
 char **environment_to_array(s_info *s_i);
 void print_env(s_info *s_i);
 node *_getenv(s_info *s_i, char *key);
-int _setenv(s_info *s_i, char *key, char *val);
-int _unsetenv(s_info *s_i, char *key);
+int _setenv(s_info *s_i);
+int _unsetenv(s_info *s_i);
 
 /* SHELL functions */
 int shell(s_info *s_i);

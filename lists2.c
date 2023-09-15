@@ -12,6 +12,8 @@ int get_index(list *list, char *key)
 	node *n = list->head;
 	unsigned int index = 0;
 
+	if (!key)
+		return (-1);
 	while (n)
 	{
 		if (!_strcmp(n->d_ptr, key))
@@ -64,10 +66,11 @@ node *amend_node(list *list, unsigned int index, void *data)
  * delete_node - deletes the node at specified index
  * @list: list to be modified
  * @index: index of the note to be removed
+ * @keep_pointers: [boolean] 0 to delete original pointers, 1 to keep
  *
  * Return: 0 on success, 1 otherwise
  */
-int delete_node(list *list, unsigned int index)
+int delete_node(list *list, unsigned int index, int keep_pointers)
 {
 	unsigned int i = 0;
 	node *c;
@@ -80,6 +83,8 @@ int delete_node(list *list, unsigned int index)
 	if (index == 0)
 	{
 		list->head = list->head->next;
+		if (!keep_pointers)
+			free(c->d_ptr);
 		free(c);
 		return (0);
 	}
@@ -94,6 +99,8 @@ int delete_node(list *list, unsigned int index)
 
 	to_delete = c->next;
 	c->next = to_delete->next;
+	if (!keep_pointers)
+		free(to_delete->d_ptr);
 	free(to_delete);
 
 	return (0);

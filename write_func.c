@@ -11,13 +11,19 @@ int _putchar(char c)
 	static char buffer[BUF_SIZE];
 	static int cur;
 
-	if (c == BUF_FLUSH || cur >= BUF_SIZE)
+	if (c == ERROR_FLUSH)
+	{
+		if (write(STDERR_FILENO, &buffer, cur) == -1)
+			return (-1);
+		cur = 0;
+	}
+	else if (c == BUF_FLUSH || cur >= BUF_SIZE)
 	{
 		if (write(STDOUT_FILENO, &buffer, cur) == -1)
 			return (-1);
 		cur = 0;
 	}
-	if (c != BUF_FLUSH)
+	else
 	{
 		buffer[cur] = c;
 		cur++;

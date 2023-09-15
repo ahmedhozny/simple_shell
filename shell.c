@@ -9,6 +9,7 @@
 int shell(s_info *s_i)
 {
 	size_t len = 0;
+	char *tmp = NULL;
 
 	while (1)
 	{
@@ -30,8 +31,16 @@ int shell(s_info *s_i)
 		if (exec_builtin(s_i, s_i->cur_cmd, s_i->cur_cmd[0]))
 			continue;
 		if (access(s_i->cur_cmd[0], X_OK) == -1)
-			s_i->cur_cmd[0] = search_PATH(s_i, s_i->cur_cmd[0]);
-		command_validity_checker(s_i, s_i->cur_cmd[0], 1);
+		{
+			tmp = search_PATH(s_i, s_i->cur_cmd[0]);
+			if (!tmp)
+				command_validity_error(s_i, s_i->cur_cmd[0], 1);
+			else
+			{
+				free(s_i->cur_cmd[0]);
+				s_i->cur_cmd[0] = tmp;
+			}
+		}
 
 		if (!s_i->status)
 			_execute(s_i, s_i->cur_cmd[0], s_i->cur_cmd);

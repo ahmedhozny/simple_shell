@@ -1,35 +1,32 @@
 #include "shell.h"
 
 /**
- * command_validity_checker - check if command exists and takes actions
+ * command_validity_error - check if command exists and takes actions
  * @s_i: session info
  * @cmd: command to be checked
  * @print_error: [boolean] whether error message will be printed
  * Return: 0 if command is valid; -1 otherwise.
  */
-int command_validity_checker(s_info *s_i, char *cmd, int print_error)
+int command_validity_error(s_info *s_i, char *cmd, int print_error)
 {
-	char *temp;
+	char *temp = NULL;
 
-	if (!cmd)
+	s_i->status = 127;
+	if (print_error)
 	{
-		s_i->status = 127;
-		if (print_error)
-		{
-			/* pwd needed */
-			_puts("[PWD here]");
-			_puts(": ");
-			temp = convertUnsignedNum(s_i->iter_num);
-			_puts(temp);
-			free(temp);
-			_puts(": ");
-			_puts(cmd);
-			_puts(": not found");
-			_puts("\n");
-		}
-		return (-1);
+		/* pwd needed */
+		_putchar(BUF_FLUSH);
+		_puts("./hsh: ");
+		temp = convertUnsignedNum(s_i->iter_num);
+		if (!temp)
+			return (-1);
+		_puts(temp);
+		free(temp);
+		_puts(": ");
+		_puts(cmd);
+		_puts(": not found\n");
+		_putchar(ERROR_FLUSH);
 	}
-	s_i->status = 0;
 	return (0);
 }
 
@@ -50,14 +47,15 @@ int exitcode_validity_checker(s_info *s_i, char *exit_code, int print_error)
 		if (print_error)
 		{
 			/* pwd needed */
-			_puts("[PWD here]");
-			_puts(": ");
+			_putchar(BUF_FLUSH);
+			_puts("./hsh: ");
 			temp = convertUnsignedNum(s_i->iter_num);
 			_puts(temp);
 			free(temp);
 			_puts(": exit: Illegal number: ");
 			_puts(exit_code);
-			_puts("\n");
+			_putchar('\n');
+			_putchar(ERROR_FLUSH);
 		}
 		return (-1);
 	}

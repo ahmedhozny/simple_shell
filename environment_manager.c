@@ -31,8 +31,12 @@ void print_env(s_info *s_i)
  */
 node *_getenv(s_info *s_i, char *key)
 {
-	int index = get_index(s_i->env_keys, key);
+	int index;
 
+	if (!key)
+		return (NULL);
+
+	index = get_index(s_i->env_keys, key);
 	if (index == -1)
 		return (NULL);
 
@@ -42,22 +46,41 @@ node *_getenv(s_info *s_i, char *key)
 /**
  * _setenv - sets or updates a key-value pair in the environment
  * @s_i: session info
- * @key: the key for the environment variable
- * @val: the value to associate with the key
  *
  * Return: 1 on Success, 0 on failure
  */
-int _setenv(s_info *s_i, char *key, char *val)
+int _setenv(s_info *s_i)
 {
-	node *value = _getenv(s_i, key);
+	char *newKey = NULL, *newVal = NULL;
+	node *value;
 
-	if (val == NULL)
+	if (!s_i->cur_cmd[1] || !s_i->cur_cmd[2])
+		return (0);
+	newKey = _strdup(s_i->cur_cmd[1]);
+	newVal = _strdup(s_i->cur_cmd[2]);
+	if (!newKey || !newVal)
 	{
-		if (!append_node(s_i->env_keys, key) || !append_node(s_i->env_vals, val))
+		free(newKey);
+		free(newVal);
+		return (0);
+	}
+	value = _getenv(s_i, newKey);
+	if (value == NULL)
+	{
+		if (!append_node(s_i->env_keys, newKey) ||
+				!append_node(s_i->env_vals, newVal))
+		{
+			free(newKey);
+			free(newVal);
 			return (0);
+		}
 	}
 	else
-		value->d_ptr = val;
+	{
+		free(newKey);
+		free(value->d_ptr);
+		value->d_ptr = newVal;
+	}
 
 	return (1);
 }
@@ -65,19 +88,21 @@ int _setenv(s_info *s_i, char *key, char *val)
 /**
  * _unsetenv - unsets (deletes) key-value pair in the environment
  * @s_i: session info
- * @key: the key for the environment variable
  *
  * Return: 1 on Success, 0 on failure
  */
-int _unsetenv(s_info *s_i, char *key)
+int _unsetenv(s_info *s_i)
 {
-	int index = get_index(s_i->env_keys, key);
+	int index;
 
-	if (index == -1)
+	if (!s_i->cur_cmd[1])
 		return (0);
 
-	if (!delete_node(s_i->env_keys, (unsigned int)index) ||
-			!delete_node(s_i->env_vals, (unsigned int)index))
+	index = get_index(s_i->env_keys, s_i->cur_cmd[1]);
+	if (index == -1)
+		return (0);
+	if (delete_node(s_i->env_keys, (unsigned int)index, 0) ||
+			delete_node(s_i->env_vals, (unsigned int)index, 0))
 		return (0);
 
 	return (1);
