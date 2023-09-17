@@ -46,26 +46,26 @@ node *_getenv(s_info *s_i, char *key)
 /**
  * _setenv - sets or updates a key-value pair in the environment
  * @s_i: session info
+ * @key: key of environment variable
+ * @value: value of environment variable
  *
  * Return: 1 on Success, 0 on failure
  */
-int _setenv(s_info *s_i)
+int _setenv(s_info *s_i, char *key, char *value)
 {
 	char *newKey = NULL, *newVal = NULL;
-	node *value;
+	node *value_node;
 
-	if (!s_i->cur_cmd[1] || !s_i->cur_cmd[2])
-		return (0);
-	newKey = _strdup(s_i->cur_cmd[1]);
-	newVal = _strdup(s_i->cur_cmd[2]);
+	newKey = _strdup(key);
+	newVal = _strdup(value);
 	if (!newKey || !newVal)
 	{
 		free(newKey);
 		free(newVal);
 		return (0);
 	}
-	value = _getenv(s_i, newKey);
-	if (value == NULL)
+	value_node = _getenv(s_i, newKey);
+	if (value_node == NULL)
 	{
 		if (!append_node(s_i->env_keys, newKey) ||
 				!append_node(s_i->env_vals, newVal))
@@ -78,8 +78,8 @@ int _setenv(s_info *s_i)
 	else
 	{
 		free(newKey);
-		free(value->d_ptr);
-		value->d_ptr = newVal;
+		free(value_node->d_ptr);
+		value_node->d_ptr = newVal;
 	}
 
 	return (1);

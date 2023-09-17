@@ -72,4 +72,5 @@ void cleanup(s_info *s_i)
 	free_list(s_i->env_keys, 0);
 	free_list(s_i->env_vals, 0);
 	free(s_i->cur_line);
+	free(s_i->prev_dir);
 }

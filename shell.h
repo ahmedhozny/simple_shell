@@ -51,6 +51,7 @@ typedef struct list
  * @iter_num: current iteration number
  * @cur_line: current line of input
  * @cur_cmd: current command array
+ * @prev_dir: previous directory
  * @env_keys: list of environment keys
  * @env_vals: list of environment values
  *
@@ -63,6 +64,7 @@ typedef struct session_info
 	unsigned long iter_num;
 	char *cur_line;
 	char **cur_cmd;
+	char *prev_dir;
 	list *env_keys;
 	list *env_vals;
 } s_info;
@@ -105,6 +107,8 @@ int _isPositiveNumber(char *str);
 /* errors functions */
 int command_validity_error(s_info *s_i, char *cmd, int print_error);
 int exitcode_validity_checker(s_info *s_i, char *exit_code, int print_error);
+int cd_validity_checker(s_info *s_i, char *dir, int print_error);
+int print_error(char *message);
 
 /* memory functions */
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
@@ -123,6 +127,8 @@ void _EOF(s_info *s_i);
 char *break_cmd(char *cmd);
 char *search_PATH(s_info *s_i, char *cmd);
 int exec_builtin(s_info *s_i, char **args, char *cmd);
+int cd(s_info *s_i);
+int change_dir(s_info *s_i, char *pwd);
 
 /* lists functions */
 list *create_list(char type);
@@ -141,7 +147,7 @@ int init_environment(s_info *s_i);
 char **environment_to_array(s_info *s_i);
 void print_env(s_info *s_i);
 node *_getenv(s_info *s_i, char *key);
-int _setenv(s_info *s_i);
+int _setenv(s_info *s_i, char *key, char *value);
 int _unsetenv(s_info *s_i);
 
 /* SHELL functions */

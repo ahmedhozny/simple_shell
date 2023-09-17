@@ -10,20 +10,16 @@ int _putchar(char c)
 {
 	static char buffer[BUF_SIZE];
 	static int cur;
+	int fd;
 
-	if (c == ERROR_FLUSH)
+	fd = (c == ERROR_FLUSH) ? STDERR_FILENO : STDOUT_FILENO;
+	if (c == BUF_FLUSH || c == ERROR_FLUSH || cur >= BUF_SIZE)
 	{
-		if (write(STDERR_FILENO, &buffer, cur) == -1)
+		if (write(fd, &buffer, cur) == -1)
 			return (-1);
 		cur = 0;
 	}
-	else if (c == BUF_FLUSH || cur >= BUF_SIZE)
-	{
-		if (write(STDOUT_FILENO, &buffer, cur) == -1)
-			return (-1);
-		cur = 0;
-	}
-	else
+	if (c != ERROR_FLUSH && c != BUF_FLUSH)
 	{
 		buffer[cur] = c;
 		cur++;

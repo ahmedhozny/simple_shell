@@ -12,7 +12,8 @@ int command_validity_error(s_info *s_i, char *cmd, int print_error)
 	char *temp = NULL, *temp2 = NULL;
 
 	s_i->status = 127;
-	if (print_error) {
+	if (print_error)
+	{
 		temp = _getenv(s_i, "_")->d_ptr;
 		temp2 = convertUnsignedNum(s_i->iter_num);
 		if (!temp || !temp2)
@@ -69,4 +70,47 @@ int exitcode_validity_checker(s_info *s_i, char *exit_code, int print_error)
 		return (-1);
 	}
 	return (0);
+}
+
+/**
+ * cd_validity_checker - checks ability to change directory
+ * @s_i: session info
+ * @dir: directory
+ * @print_error: [boolean] whether error message will be printed
+ * Return: 0 if code is valid; -1 otherwise.
+ */
+int cd_validity_checker(s_info *s_i, char *dir, int print_error)
+{
+	char *temp, *temp2;
+
+	s_i->status = 2;
+	if (print_error)
+	{
+		temp = _getenv(s_i, "_")->d_ptr;
+		temp2 = convertUnsignedNum(s_i->iter_num);
+		if (!temp || !temp2)
+		{
+			free(temp2);
+			return (-1);
+		}
+		_putchar(BUF_FLUSH);
+		_puts(temp);
+		_puts(": ");
+		_puts(temp2);
+		free(temp2);
+		_puts(": cd: can't cd to ");
+		_puts(dir);
+		_putchar('\n');
+		_putchar(ERROR_FLUSH);
+	}
+	return (0);
+}
+/**
+ * print_error - print message to stderr
+ * @message: message to be printed
+ * Return: 1 on Success, 0 otherwise
+ */
+int print_error(char *message)
+{
+	return (_putchar(BUF_FLUSH) || _puts(message) || _putchar(ERROR_FLUSH));
 }
