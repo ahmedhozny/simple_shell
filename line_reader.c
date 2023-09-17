@@ -1,5 +1,12 @@
 #include "shell.h"
 
+/**
+ * readline - reads a line that terminates with EOL
+ * @ptr: reference of buffer pointer
+ * @n: pointer to allocation memory size
+ *
+ * Return: Length of the line (EOL included), -1 if error encountered
+ */
 ssize_t readline(char **ptr, size_t *n)
 {
 	size_t length = 0, buf_size = 120;
@@ -10,8 +17,7 @@ ssize_t readline(char **ptr, size_t *n)
 	if (n)
 		buf_size = *n < 1 ? 1 : *n;
 	buffer = malloc(buf_size * sizeof(char));
-	do
-	{
+	do {
 		r = read_char(&c);
 		if (r == -1 || (r < 1 && length == 0))
 			return (free(buffer), -1);
@@ -33,6 +39,12 @@ ssize_t readline(char **ptr, size_t *n)
 	return ((ssize_t) length);
 }
 
+/**
+ * read_char - reads a single character from stdin
+ * @c: pointer to a character
+ *
+ * Return: 1 if character is read successfully, -1 otherwise
+ */
 int read_char(char *c)
 {
 	int r;
