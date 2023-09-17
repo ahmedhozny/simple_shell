@@ -23,7 +23,8 @@ int shell(s_info *s_i)
 
 		s_i->cur_line[_strlen(s_i->cur_line) - 1] = '\0';
 		s_i->cur_cmd = strtow(s_i->cur_line, ' ');
-		if (!s_i->cur_cmd)
+		handle_op(s_i);
+		if (!s_i->cur_cmd || !s_i->cur_cmd[0])
 			continue;
 		if (exec_builtin(s_i, s_i->cur_cmd, s_i->cur_cmd[0]))
 			continue;

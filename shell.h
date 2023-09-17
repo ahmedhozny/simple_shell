@@ -130,6 +130,10 @@ int exec_builtin(s_info *s_i, char **args, char *cmd);
 int cd(s_info *s_i);
 int change_dir(s_info *s_i, char *pwd);
 
+/* operators handling functions */
+void handle_op(s_info *s_i);
+void handle_comments(s_info *s_i);
+
 /* lists functions */
 list *create_list(char type);
 node *append_node(list *list, void *data);
