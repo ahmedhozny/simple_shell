@@ -9,7 +9,6 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
-
 #define BUF_SIZE 1024
 #define BUF_FLUSH (-1)
 #define ERROR_FLUSH (-2)
@@ -153,6 +152,10 @@ void print_env(s_info *s_i);
 node *_getenv(s_info *s_i, char *key);
 int _setenv(s_info *s_i, char *key, char *value);
 int _unsetenv(s_info *s_i);
+
+/* line reader functions */
+ssize_t readline(char **ptr, size_t *n);
+int read_char(char *c);
 
 /* SHELL functions */
 int shell(s_info *s_i);

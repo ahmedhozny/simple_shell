@@ -18,7 +18,7 @@ int shell(s_info *s_i)
 		s_i->cur_cmd = NULL, s_i->cur_line = NULL;
 		if (isatty(STDIN_FILENO))
 			_puts(PROMPT), _putchar(BUF_FLUSH);
-		if (getline(&(s_i->cur_line), &len, stdin) < 1)
+		if (readline(&(s_i->cur_line), &len) < 1)
 			_EOF(s_i);
 
 		s_i->cur_line[_strlen(s_i->cur_line) - 1] = '\0';
