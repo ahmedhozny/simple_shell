@@ -1,6 +1,12 @@
 #include "shell.h"
 #include <stdio.h>
 
+/**
+ * check_chain - Checks the syntax of a command chain in a string.
+ * @str: input string
+ *
+ * Return: number of chaining elements. or neg number representing chain error
+ */
 int check_chain(const char *str)
 {
 	int last_key = -1;
@@ -33,6 +39,10 @@ int check_chain(const char *str)
 	return (counter);
 }
 
+/**
+ * handle_input - handles user input and performs operations based on it.
+ * @s_i: session info
+ */
 void handle_input(s_info *s_i)
 {
 	int op = 0;
@@ -67,6 +77,7 @@ void handle_input(s_info *s_i)
 /**
  * handle_op - handle operators in input
  * @s_i: session info
+ * @op: operator code that determines execution behavior
  */
 void handle_op(s_info *s_i, int op)
 {
@@ -89,7 +100,7 @@ void handle_op(s_info *s_i, int op)
 void handle_comments(s_info *s_i)
 {
 	static int flag;
-	static unsigned long last_iter = 0;
+	static unsigned long last_iter;
 	int i;
 
 	if (last_iter != s_i->iter_num)
@@ -106,7 +117,6 @@ void handle_comments(s_info *s_i)
 /**
  * search_PATH - searches PATH for needed command
  * @s_i: pointer to current session info
- * @cmd: command to be searched for
  *
  * Return: full command if exits
  * or NULL if not

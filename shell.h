@@ -55,6 +55,8 @@ typedef struct list
  * @cur_line: current line of input
  * @cur_cmd: current command array
  * @prev_dir: previous directory
+ * @cmd_list: list of all commands found in an iteration
+ * @ops_list: list of separators and operators found between commands
  * @env_keys: list of environment keys
  * @env_vals: list of environment values
  *
@@ -157,5 +159,6 @@ int read_char(char *c);
 
 /* SHELL functions */
 int shell(s_info *s_i);
+s_info *session_getter_setter(s_info *s_i);
 
 #endif

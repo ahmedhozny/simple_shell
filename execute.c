@@ -34,8 +34,6 @@ void pre_execute(s_info *s_i)
 /**
  * _execute -executes a given command
  * @s_i: session info pointer
- * @arg0: command name
- * @argv: command arguments
  * Return: 0 on success, -1 on failure, or error number of fork error
  */
 int _execute(s_info *s_i)

@@ -3,8 +3,6 @@
 /**
  * exec_builtin - execute proper built-in function
  * @s_i: session info
- * @args: arguments to the built-in command
- * @cmd: string to the called function
  *
  * Return: 1 on Success, 0 Otherwise
  */

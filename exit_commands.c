@@ -3,7 +3,6 @@
 /**
  * exit_sh - exits
  * @s_i: session info
- * @argv: arguments to be checked
  */
 void exit_sh(s_info *s_i)
 {
@@ -18,7 +17,6 @@ void exit_sh(s_info *s_i)
 /**
  * exit_with_status - exit program with specified code
  * @s_i: session info
- * @exit_code: string of the exit status
  */
 void exit_with_status(s_info *s_i)
 {
