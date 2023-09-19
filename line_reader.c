@@ -10,32 +10,31 @@
 ssize_t readline(char **ptr, size_t *n)
 {
 	size_t length = 0, buf_size = 120;
-	char *buffer, *new_ptr;
+	char *new_ptr;
 	char c;
 	ssize_t r;
 
 	if (n)
 		buf_size = *n < 1 ? 1 : *n;
-	buffer = malloc(buf_size * sizeof(char));
+	*ptr = malloc(buf_size * sizeof(char));
 	do {
 		r = read_char(&c);
 		if (r == -1 || (r < 1 && length == 0))
-			return (free(buffer), -1);
+			return (-1);
 		if (length + 1 >= buf_size)
 		{
-			new_ptr = _realloc(buffer, buf_size, length + 2);
+			new_ptr = _realloc(*ptr, buf_size, length + 2);
 			if (new_ptr == NULL)
-				return (free(buffer), -1);
+				return (-1);
 			buf_size = length + 1;
-			buffer = new_ptr;
+			*ptr = new_ptr;
 		}
-		buffer[length++] = c;
+		(*ptr)[length++] = c;
 	} while (c != '\n');
 
-	buffer[length] = '\0';
+	(*ptr)[length] = '\0';
 	if (n)
 		*n = buf_size;
-	*ptr = buffer;
 	return ((ssize_t) length);
 }
 

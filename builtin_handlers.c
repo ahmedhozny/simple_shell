@@ -15,13 +15,19 @@ int exec_builtin(s_info *s_i)
 	else if (!_strcmp(cmd, "setenv"))
 	{
 		if (!args[1] || !args[2])
+		{
+			s_i->status = 2;
 			return (print_error("Error: Usage: setenv VARIABLE VALUE\n"));
+		}
 		_setenv(s_i, args[1], args[2]);
 	}
 	else if (!_strcmp(cmd, "unsetenv"))
 	{
 		if (!args[1])
+		{
+			s_i->status = 2;
 			return (print_error("Error: Usage: unsetenv VARIABLE\n"));
+		}
 		_unsetenv(s_i);
 	}
 	else if (!_strcmp(cmd, "exit"))
