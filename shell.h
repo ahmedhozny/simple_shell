@@ -159,5 +159,6 @@ int read_char(char *c);
 
 /* SHELL functions */
 int shell(s_info *s_i);
+s_info *session_getter_setter(s_info *s_i);
 
 #endif

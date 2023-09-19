@@ -103,10 +103,10 @@ int break_chain(s_info *s_i)
 
 	for (i = 0; c[i] != '\0'; i++)
 	{
-		stat = (c[i] == ';')											? CMD_SEP
+		stat = (c[i] == ';')							? CMD_SEP
 					 : (c[i] == '&' && c[i + 1] == '&') ? CMD_AND
 					 : (c[i] == '|' && c[i + 1] == '|') ? CMD_OR
-																							: 0;
+					 : 0;
 		if (stat == 0)
 			continue;
 		s = malloc((i - k + 1) * sizeof(char));

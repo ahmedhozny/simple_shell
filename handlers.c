@@ -2,11 +2,10 @@
 #include <stdio.h>
 
 /**
- * check_chain - checks for separator and operators
- * @str: command string
+ * check_chain - Checks the syntax of a command chain in a string.
+ * @str: input string
  *
- * Return: number of commands on Succsess,
- * CMD_SEP, CMD_AND or CMD_OR on Failure
+ * Return: number of chaining elements. or neg number representing chain error
  */
 int check_chain(const char *str)
 {
@@ -41,7 +40,7 @@ int check_chain(const char *str)
 }
 
 /**
- * handle_input - handle input
+ * handle_input - handles user input and performs operations based on it.
  * @s_i: session info
  */
 void handle_input(s_info *s_i)
@@ -83,7 +82,7 @@ void handle_input(s_info *s_i)
 /**
  * handle_op - handle operators in input
  * @s_i: session info
- * @op: current operator
+ * @op: operator code that determines execution behavior
  *
  * Return: 1 on Succsess, 0 on Failure
  */

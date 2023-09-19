@@ -107,11 +107,12 @@ int cd_validity_checker(s_info *s_i, char *dir, int print_error)
 }
 
 /**
- * bad_chain_error - checks for commands chain error
+ * bad_chain_error - checks syntax errors in the command chain.
  * @s_i: session info
- * @op: current operation
+ * @op: operator code that indicates its type
  * @print_error: [boolean] whether error message will be printed
- * Return: 0 if code is valid; -1 otherwise.
+ *
+ * Return: 0 if no errors are detected; -1 otherwise.
  */
 int bad_chain_error(s_info *s_i, int op, int print_error)
 {

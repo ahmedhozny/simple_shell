@@ -1,14 +1,12 @@
 #include "shell.h"
 
-s_info s_i = {0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
-
 /**
  * sigintHandler - entry point
  * @signal: signal number
  */
 void sigintHandler(int signal)
 {
-	cleanup(&s_i);
+	cleanup(session_getter_setter(NULL));
 	exit(signal);
 }
 
@@ -22,9 +20,12 @@ void sigintHandler(int signal)
  */
 int main(int ac, char **av)
 {
+	s_info s_i = {0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+
 	(void)ac;
 	(void)av;
 
+	session_getter_setter(&s_i);
 	signal(SIGINT, sigintHandler);
 	if (!init_environment(&s_i))
 		cleanup(&s_i);
@@ -32,4 +33,18 @@ int main(int ac, char **av)
 		shell(&s_i);
 
 	exit(s_i.status);
+}
+
+/**
+ * session_getter_setter - gets or sets the session information pointer
+ * @s_i: session info to store new pointer, null to get the latest one
+ * Return: latest pointer if any is set, NULL if session is never set
+ */
+s_info *session_getter_setter(s_info *s_i)
+{
+	static s_info *session_info;
+
+	if (s_i != NULL)
+		session_info = s_i;
+	return (session_info);
 }
