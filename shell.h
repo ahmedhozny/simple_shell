@@ -87,6 +87,7 @@ char *_strdup(const char *str);
 size_t _strlen(const char *str);
 int _strcmp(char *s1, char *s2);
 char *_strcat(char *s1, char *s2, char between);
+int isValidName(char ch);
 
 /* splitting functions */
 char **strtow(char *str, char delim);
@@ -132,6 +133,9 @@ char *search_PATH(s_info *s_i);
 int exec_builtin(s_info *s_i);
 int cd(s_info *s_i);
 int change_dir(s_info *s_i, char *pwd);
+
+/* variable replacement functions */
+int variable_rep(s_info *s_i);
 
 /* lists functions */
 list *create_list(char type);

@@ -91,6 +91,7 @@ int handle_op(s_info *s_i, int op)
 	if (!s_i->cur_cmd)
 		return (0);
 	handle_comments(s_i);
+	variable_rep(s_i);
 	if (op == 0 || op == CMD_SEP)
 		pre_execute(s_i);
 	else if (op == CMD_AND && !s_i->status)

@@ -100,3 +100,17 @@ char *_strcat(char *s1, char *s2, char between)
 
 	return (newStr);
 }
+
+/**
+ * isValidName - checks if a character is valid for naming
+ * @ch: the character
+ *
+ * Return: 1 on Success, 0 on Failure
+ */
+int isValidName(char ch)
+{
+	if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') ||
+			(ch >= '0' && ch <= '9') || ch == '_')
+		return (1);
+	return (0);
+}

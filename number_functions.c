@@ -59,21 +59,20 @@ char *convertUnsignedNum(unsigned long num)
 	char *c;
 	unsigned int i, d;
 
-	if (num == 0)
-		return ((char *) '0');
 	d = digits_counter(num);
-
 	c = malloc(sizeof(char) * (d + 1));
 	if (!c)
-	{
-		free(c);
-		return (0);
-	}
+		return (NULL);
 
-	for (i = 0; i < d; i++)
+	if (num == 0)
+		c[0] = '0';
+	else
 	{
-		c[d - i - 1] = (num % 10) + '0';
-		num /= 10;
+		for (i = 0; i < d; i++)
+		{
+			c[d - i - 1] = (num % 10) + '0';
+			num /= 10;
+		}
 	}
 
 	c[d] = '\0';
