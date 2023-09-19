@@ -6,8 +6,11 @@
  */
 void sigintHandler(int signal)
 {
-	cleanup(session_getter_setter(NULL));
-	exit(signal);
+	if (signal == SIGINT)
+	{
+		cleanup(session_getter_setter(NULL));
+		exit(130);
+	}
 }
 
 /**

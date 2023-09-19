@@ -16,16 +16,14 @@ void pre_execute(s_info *s_i)
 	if (s_i->cur_cmd[0][0] != '.' && s_i->cur_cmd[0][0] != '/')
 	{
 		tmp = search_PATH(s_i);
-		if (!tmp)
-			command_validity_error(s_i, s_i->cur_cmd[0], 1);
-		else
+		if (!command_validity_error(s_i, tmp, 1))
 		{
 			free(s_i->cur_cmd[0]);
 			s_i->cur_cmd[0] = tmp;
 		}
 	}
-	else if (access(s_i->cur_cmd[0], X_OK) == -1)
-		command_validity_error(s_i, s_i->cur_cmd[0], 1);
+	else if (!command_validity_error(s_i, s_i->cur_cmd[0], 1))
+		file_permission_error(s_i, 1);
 
 	if (!s_i->status)
 		_execute(s_i);
@@ -55,9 +53,9 @@ int _execute(s_info *s_i)
 	if (pid == 0)
 	{
 		execve(s_i->cur_cmd[0], s_i->cur_cmd, env);
-		s_i->status = 127;
+		s_i->status = 2;
 		perror(s_i->cur_cmd[0]);
-		exit(127);
+		exit(2);
 	}
 
 	wait(&status);

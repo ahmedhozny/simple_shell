@@ -9,7 +9,11 @@
  */
 int command_validity_error(s_info *s_i, char *cmd, int print_error)
 {
+	struct stat st;
 	char *temp = NULL, *temp2 = NULL;
+
+	if (cmd != NULL && stat(cmd, &st) == 0)
+		return (0);
 
 	s_i->status = 127;
 	if (print_error)
@@ -27,7 +31,7 @@ int command_validity_error(s_info *s_i, char *cmd, int print_error)
 		_puts(temp2);
 		free(temp2);
 		_puts(": ");
-		_puts(cmd);
+		_puts(s_i->cur_cmd[0]);
 		_puts(": not found\n");
 		_putchar(ERROR_FLUSH);
 	}
@@ -47,7 +51,7 @@ int exitcode_validity_checker(s_info *s_i, char *exit_code, int print_error)
 
 	if (!_isPositiveNumber(exit_code))
 	{
-		s_i->status = 2;
+		s_i->status = 128;
 		if (print_error)
 		{
 			temp = _getenv(s_i, "_")->d_ptr;
