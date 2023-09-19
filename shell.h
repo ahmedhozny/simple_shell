@@ -14,6 +14,10 @@
 #define ERROR_FLUSH (-2)
 #define PROMPT "$ "
 
+#define CMD_SEP (-1)
+#define CMD_AND (-2)
+#define CMD_OR (-3)
+
 extern char **environ;
 
 /************* STRUCTURES ************/
@@ -64,6 +68,8 @@ typedef struct session_info
 	char *cur_line;
 	char **cur_cmd;
 	char *prev_dir;
+	char **cmd_list;
+	int *ops_list;
 	list *env_keys;
 	list *env_vals;
 } s_info;
@@ -95,6 +101,7 @@ int _strcmp(char *s1, char *s2);
 char *_strcat(char *s1, char *s2, char between);
 char **strtow(char *str, char delim);
 char **split(char *str, char delim);
+int break_chain(s_info *s_i);
 char **getArgs(const char *str, const char *delim);
 
 /* number functions */
@@ -107,6 +114,7 @@ int _isPositiveNumber(char *str);
 int command_validity_error(s_info *s_i, char *cmd, int print_error);
 int exitcode_validity_checker(s_info *s_i, char *exit_code, int print_error);
 int cd_validity_checker(s_info *s_i, char *dir, int print_error);
+int bad_chain_error(s_info *s_i, int op, int print_error);
 int print_error(char *message);
 
 /* memory functions */
@@ -116,6 +124,7 @@ void cleanup(s_info *s_i);
 
 /* execute functions */
 int _execute(s_info *s_i, char *arg0, char **argv);
+void pre_execute(s_info *s_i);
 
 /* system functions */
 void exit_sh(s_info *s_i, char **argv);
@@ -130,8 +139,10 @@ int cd(s_info *s_i);
 int change_dir(s_info *s_i, char *pwd);
 
 /* operators handling functions */
-void handle_op(s_info *s_i);
+void handle_input(s_info *s_i);
+void handle_op(s_info *s_i, char *cmd, int op);
 void handle_comments(s_info *s_i);
+int check_chain(const char *str);
 
 /* lists functions */
 list *create_list(char type);
