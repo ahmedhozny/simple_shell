@@ -73,4 +73,6 @@ void cleanup(s_info *s_i)
 	free_list(s_i->env_vals, 0);
 	free(s_i->cur_line);
 	free(s_i->prev_dir);
+	bigFree(s_i->cmd_list, -1);
+	free(s_i->ops_list);
 }
