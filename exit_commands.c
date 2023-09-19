@@ -5,14 +5,14 @@
  * @s_i: session info
  * @argv: arguments to be checked
  */
-void exit_sh(s_info *s_i, char **argv)
+void exit_sh(s_info *s_i)
 {
-	if (argv[1] == NULL)
+	if (s_i->cur_cmd[1] == NULL)
 	{
 		cleanup(s_i);
 		exit((int)s_i->status);
 	}
-	exit_with_status(s_i, argv[1]);
+	exit_with_status(s_i);
 }
 
 /**
@@ -20,11 +20,11 @@ void exit_sh(s_info *s_i, char **argv)
  * @s_i: session info
  * @exit_code: string of the exit status
  */
-void exit_with_status(s_info *s_i, char *exit_code)
+void exit_with_status(s_info *s_i)
 {
-	int code = _atoi(exit_code);
+	int code = _atoi(s_i->cur_cmd[1]);
 
-	if (!exitcode_validity_checker(s_i, exit_code, 1))
+	if (!exitcode_validity_checker(s_i, s_i->cur_cmd[1], 1))
 	{
 		cleanup(s_i);
 		exit(code);

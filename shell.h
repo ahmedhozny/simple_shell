@@ -74,20 +74,6 @@ typedef struct session_info
 	list *env_vals;
 } s_info;
 
-/**
- * struct builtin - struct for built-in cmd
- * @str: string to cmd
- * @func: pointer to the proper function
- *
- * Description: struct to choose
- * the appropriate function to execute built-in commands
- */
-typedef struct builtin
-{
-	char *str;
-	int (*func)(s_info *s_i, char **args);
-} builtin;
-
 /************* FUNCTIONS *************/
 
 /* write functions */
@@ -99,10 +85,12 @@ char *_strdup(const char *str);
 size_t _strlen(const char *str);
 int _strcmp(char *s1, char *s2);
 char *_strcat(char *s1, char *s2, char between);
+
+/* splitting functions */
 char **strtow(char *str, char delim);
 char **split(char *str, char delim);
-int break_chain(s_info *s_i);
 char **getArgs(const char *str, const char *delim);
+int break_chain(s_info *s_i);
 
 /* number functions */
 unsigned int digits_counter(unsigned long num);
@@ -123,26 +111,25 @@ void bigFree(char **ptr, int size);
 void cleanup(s_info *s_i);
 
 /* execute functions */
-int _execute(s_info *s_i, char *arg0, char **argv);
+int _execute(s_info *s_i);
 void pre_execute(s_info *s_i);
 
-/* system functions */
-void exit_sh(s_info *s_i, char **argv);
-void exit_with_status(s_info *s_i, char *exit_code);
+/* exit functions */
+void exit_sh(s_info *s_i);
+void exit_with_status(s_info *s_i);
 void _EOF(s_info *s_i);
 
 /* handelers functions */
-char *break_cmd(char *cmd);
-char *search_PATH(s_info *s_i, char *cmd);
-int exec_builtin(s_info *s_i, char **args, char *cmd);
+int check_chain(const char *str);
+void handle_input(s_info *s_i);
+void handle_op(s_info *s_i, int op);
+void handle_comments(s_info *s_i);
+char *search_PATH(s_info *s_i);
+
+/* built-in handlers functions */
+int exec_builtin(s_info *s_i);
 int cd(s_info *s_i);
 int change_dir(s_info *s_i, char *pwd);
-
-/* operators handling functions */
-void handle_input(s_info *s_i);
-void handle_op(s_info *s_i, char *cmd, int op);
-void handle_comments(s_info *s_i);
-int check_chain(const char *str);
 
 /* lists functions */
 list *create_list(char type);

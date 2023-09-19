@@ -1,71 +1,4 @@
 #include "shell.h"
-#include <stdio.h>
-
-/**
- * break_cmd - break command to get last string
- * @cmd: command string
- *
- * Return: pointer to new command string
- */
-char *break_cmd(char *cmd)
-{
-	char **cmdArr, *tmp;
-	int i;
-
-	cmdArr = strtow(cmd, '/');
-	if (!cmdArr)
-		return (NULL);
-
-	for (i = 0; cmdArr[i]; i++)
-	{
-		tmp = cmdArr[i];
-		if (!cmdArr[i + 1])
-			return (free(cmdArr), tmp);
-		free(cmdArr[i]);
-	}
-	return (free(cmdArr), NULL);
-}
-
-/**
- * search_PATH - searches PATH for needed command
- * @s_i: pointer to current session info
- * @cmd: command to be searched for
- *
- * Return: full command if exits
- * or NULL if not
- */
-char *search_PATH(s_info *s_i, char *cmd)
-{
-	char **path, *full_cmd;
-	node *pathenv = _getenv(s_i, "PATH");
-	int i = 0;
-
-	if (!pathenv)
-		return (NULL);
-	path = strtow(pathenv->d_ptr, ':');
-	if (!path)
-	{
-		s_i->status = 97;
-		return (NULL);
-	}
-	while (path[i])
-	{
-		full_cmd = _strcat(path[i], cmd, path[i][0]);
-		if (!full_cmd)
-		{
-			bigFree(path, -1);
-			s_i->status = 97;
-			return (NULL);
-		}
-		if (!access(full_cmd, X_OK))
-			return (bigFree(path, -1), full_cmd);
-
-		free(full_cmd);
-		i++;
-	}
-	bigFree(path, -1);
-	return (NULL);
-}
 
 /**
  * exec_builtin - execute proper built-in function
@@ -75,8 +8,10 @@ char *search_PATH(s_info *s_i, char *cmd)
  *
  * Return: 1 on Success, 0 Otherwise
  */
-int exec_builtin(s_info *s_i, char **args, char *cmd)
+int exec_builtin(s_info *s_i)
 {
+	char **args = s_i->cur_cmd, *cmd = s_i->cur_cmd[0];
+
 	if (!_strcmp(cmd, "env"))
 		print_env(s_i);
 	else if (!_strcmp(cmd, "setenv"))
@@ -92,7 +27,7 @@ int exec_builtin(s_info *s_i, char **args, char *cmd)
 		_unsetenv(s_i);
 	}
 	else if (!_strcmp(cmd, "exit"))
-		exit_sh(s_i, args);
+		exit_sh(s_i);
 	else if (!_strcmp(cmd, "cd"))
 	{
 		if (cd(s_i) == 2)

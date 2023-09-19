@@ -10,12 +10,12 @@ void pre_execute(s_info *s_i)
 
 	if (!s_i->cur_cmd || !s_i->cur_cmd[0])
 		return;
-	if (exec_builtin(s_i, s_i->cur_cmd, s_i->cur_cmd[0]))
+	if (exec_builtin(s_i))
 		return;
 	s_i->status = 0;
 	if (s_i->cur_cmd[0][0] != '.' && s_i->cur_cmd[0][0] != '/')
 	{
-		tmp = search_PATH(s_i, s_i->cur_cmd[0]);
+		tmp = search_PATH(s_i);
 		if (!tmp)
 			command_validity_error(s_i, s_i->cur_cmd[0], 1);
 		else
@@ -28,7 +28,7 @@ void pre_execute(s_info *s_i)
 		command_validity_error(s_i, s_i->cur_cmd[0], 1);
 
 	if (!s_i->status)
-		_execute(s_i, s_i->cur_cmd[0], s_i->cur_cmd);
+		_execute(s_i);
 }
 
 /**
@@ -38,7 +38,7 @@ void pre_execute(s_info *s_i)
  * @argv: command arguments
  * Return: 0 on success, -1 on failure, or error number of fork error
  */
-int _execute(s_info *s_i, char *arg0, char **argv)
+int _execute(s_info *s_i)
 {
 	int pid, status;
 	char **env = environment_to_array(s_i);
@@ -55,9 +55,9 @@ int _execute(s_info *s_i, char *arg0, char **argv)
 
 	if (pid == 0)
 	{
-		execve(arg0, argv, env);
+		execve(s_i->cur_cmd[0], s_i->cur_cmd, env);
 		s_i->status = 127;
-		perror(arg0);
+		perror(s_i->cur_cmd[0]);
 		exit(127);
 	}
 
