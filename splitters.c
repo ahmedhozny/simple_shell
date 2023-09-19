@@ -85,3 +85,47 @@ char **split(char *str, char delim)
 	strArr[0][size1] = '\0', strArr[1][size - size1 - 1] = '\0';
 	return (strArr);
 }
+
+/**
+ * break_chain - parses a command chain, separating commands and operators
+ * @s_i: session info
+ * @commands: double pointer to store commands
+ * @operators: double pointer to store operators
+ * Return: 0 on success, -1 on failure
+ */
+int break_chain(s_info *s_i)
+{
+	int i, j, stat, k = 0;
+	char *c, *s = NULL;
+	int curr = 0;
+
+	if (!s_i->cur_line)
+		return (-1);
+	c = s_i->cur_line;
+
+	for (i = 0; c[i] != '\0'; i++)
+	{
+		stat = (c[i] == ';') ? CMD_SEP
+				: (c[i] == '&' && c[i + 1] == '&') ? CMD_AND
+				: (c[i] == '|' && c[i + 1] == '|') ? CMD_OR : 0;
+		if (stat == 0)
+			continue;
+		s = malloc((i - k + 1) * sizeof(char));
+		if (!s)
+			return (free(s), -1);
+		for (j = 0; j < i - k; j++)
+			s[j] = s_i->cur_line[k + j];
+		s[j] = '\0';
+		s_i->cmd_list[curr] = s;
+		s_i->ops_list[curr++] = stat;
+		k = i + 1 + stat == CMD_AND || stat == CMD_OR ? 1 : 0;
+	}
+	s = malloc((i - k + 1) * sizeof(char));
+	if (!s)
+		return (free(s), -1);
+	for (j = 0; k + j < i; j++)
+		s[j] = s_i->cur_line[k + j];
+	s[j] = '\0';
+	s_i->cmd_list[curr] = s;
+	return (0);
+}
