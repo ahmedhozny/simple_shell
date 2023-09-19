@@ -68,11 +68,11 @@ void bigFree(char **ptr, int size)
 void cleanup(s_info *s_i)
 {
 	_putchar(BUF_FLUSH);
+	bigFree(s_i->cmd_list, -1);
 	bigFree(s_i->cur_cmd, -1);
 	free_list(s_i->env_keys, 0);
 	free_list(s_i->env_vals, 0);
 	free(s_i->cur_line);
 	free(s_i->prev_dir);
-	bigFree(s_i->cmd_list, -1);
 	free(s_i->ops_list);
 }

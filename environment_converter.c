@@ -75,5 +75,6 @@ char **environment_to_array(s_info *s_i)
 		key = key->next;
 		val = val->next;
 	}
+	array[i] = NULL;
 	return (array);
 }

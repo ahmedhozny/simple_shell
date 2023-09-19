@@ -105,20 +105,21 @@ int break_chain(s_info *s_i)
 
 	for (i = 0; c[i] != '\0'; i++)
 	{
-		stat = (c[i] == ';') ? CMD_SEP
-				: (c[i] == '&' && c[i + 1] == '&') ? CMD_AND
-				: (c[i] == '|' && c[i + 1] == '|') ? CMD_OR : 0;
+		stat = (c[i] == ';')											? CMD_SEP
+					 : (c[i] == '&' && c[i + 1] == '&') ? CMD_AND
+					 : (c[i] == '|' && c[i + 1] == '|') ? CMD_OR
+																							: 0;
 		if (stat == 0)
 			continue;
 		s = malloc((i - k + 1) * sizeof(char));
 		if (!s)
 			return (free(s), -1);
-		for (j = 0; j < i - k; j++)
+		for (j = 0; k + j < i; j++)
 			s[j] = s_i->cur_line[k + j];
 		s[j] = '\0';
 		s_i->cmd_list[curr] = s;
 		s_i->ops_list[curr++] = stat;
-		k = i + 1 + stat == CMD_AND || stat == CMD_OR ? 1 : 0;
+		k += j + 1 + ((stat == CMD_AND || stat == CMD_OR) ? 1 : 0);
 	}
 	s = malloc((i - k + 1) * sizeof(char));
 	if (!s)

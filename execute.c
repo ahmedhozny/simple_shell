@@ -29,7 +29,6 @@ void pre_execute(s_info *s_i)
 
 	if (!s_i->status)
 		_execute(s_i, s_i->cur_cmd[0], s_i->cur_cmd);
-
 }
 
 /**
@@ -42,18 +41,21 @@ void pre_execute(s_info *s_i)
 int _execute(s_info *s_i, char *arg0, char **argv)
 {
 	int pid, status;
+	char **env = environment_to_array(s_i);
 
+	if (!env)
+		return (-1);
 	pid = fork();
 	if (pid < 0)
 	{
 		s_i->status = errno;
 		perror("Fork error");
-		return (errno);
+		return (bigFree(env, -1), errno);
 	}
 
 	if (pid == 0)
 	{
-		execve(arg0, argv, environ);
+		execve(arg0, argv, env);
 		s_i->status = 127;
 		perror(arg0);
 		exit(127);
@@ -61,5 +63,6 @@ int _execute(s_info *s_i, char *arg0, char **argv)
 
 	wait(&status);
 	s_i->status = WEXITSTATUS(status);
+	bigFree(env, -1);
 	return ((s_i->status != 0) ? -1 : 0);
 }

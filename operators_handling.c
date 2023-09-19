@@ -9,25 +9,24 @@ void handle_input(s_info *s_i)
 	stat = check_chain(s_i->cur_line);
 	if (!bad_chain_error(s_i, stat, 1))
 	{
-		s_i->cmd_list = malloc(sizeof(*s_i->cmd_list) * (stat + 1));
-		s_i->ops_list = malloc(sizeof(int) * stat);
+		s_i->cmd_list = malloc(sizeof(*s_i->cmd_list) * (stat + 2));
+		s_i->ops_list = malloc(sizeof(int) * (stat + 1));
 		if (!s_i->cmd_list || !s_i->ops_list)
 		{
 			free(s_i->cmd_list), free(s_i->ops_list);
 			return;
 		}
+		s_i->cmd_list[stat + 1] = NULL;
+		s_i->ops_list[stat] = '\0';
 		break_chain(s_i);
-		for (i = 0; i < stat; ++i)
+		for (i = 0; i < stat + 1; ++i)
 		{
 			s_i->cur_cmd = strtow(s_i->cmd_list[i], ' ');
 			handle_op(s_i, s_i->cmd_list[i], op);
 			op = s_i->ops_list[i];
 			bigFree(s_i->cur_cmd, -1);
 		}
-		s_i->cur_cmd = strtow(s_i->cmd_list[i], ' ');
-		handle_op(s_i, s_i->cmd_list[i], op);
-		bigFree(s_i->cur_cmd, -1);
-		bigFree(s_i->cmd_list, stat + 1);
+		bigFree(s_i->cmd_list, -1);
 		free(s_i->ops_list);
 	}
 }
