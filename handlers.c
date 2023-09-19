@@ -1,12 +1,19 @@
 #include "shell.h"
 #include <stdio.h>
 
+/**
+ * check_chain - checks for separator and operators
+ * @str: command string
+ *
+ * Return: number of commands on Succsess,
+ * CMD_SEP, CMD_AND or CMD_OR on Failure
+ */
 int check_chain(const char *str)
 {
 	int last_key = -1;
 	int i, counter = 0;
 
-	for (i = 0; str[i] != '\0' && str[i] != '#'; i++)
+	for (i = 0; str[i] != '\0'; i++)
 	{
 		if (str[i] == ';')
 		{
@@ -33,6 +40,10 @@ int check_chain(const char *str)
 	return (counter);
 }
 
+/**
+ * handle_input - handle input
+ * @s_i: session info
+ */
 void handle_input(s_info *s_i)
 {
 	int op = 0;
@@ -55,7 +66,12 @@ void handle_input(s_info *s_i)
 		for (i = 0; i < stat + 1; ++i)
 		{
 			s_i->cur_cmd = strtow(s_i->cmd_list[i], ' ');
-			handle_op(s_i, op);
+			if (!handle_op(s_i, op))
+			{
+				bigFree(s_i->cmd_list, -1);
+				free(s_i->ops_list);
+				return;
+			}
 			op = s_i->ops_list[i];
 			bigFree(s_i->cur_cmd, -1);
 		}
@@ -67,12 +83,14 @@ void handle_input(s_info *s_i)
 /**
  * handle_op - handle operators in input
  * @s_i: session info
+ * @op: current operator
+ *
+ * Return: 1 on Succsess, 0 on Failure
  */
-void handle_op(s_info *s_i, int op)
+int handle_op(s_info *s_i, int op)
 {
 	if (!s_i->cur_cmd)
-		return;
-
+		return (0);
 	handle_comments(s_i);
 	if (op == 0 || op == CMD_SEP)
 		pre_execute(s_i);
@@ -80,6 +98,8 @@ void handle_op(s_info *s_i, int op)
 		pre_execute(s_i);
 	else if (op == CMD_OR && s_i->status)
 		pre_execute(s_i);
+
+	return (1);
 }
 
 /**
@@ -89,7 +109,7 @@ void handle_op(s_info *s_i, int op)
 void handle_comments(s_info *s_i)
 {
 	static int flag;
-	static unsigned long last_iter = 0;
+	static unsigned long last_iter;
 	int i;
 
 	if (last_iter != s_i->iter_num)
@@ -106,7 +126,6 @@ void handle_comments(s_info *s_i)
 /**
  * search_PATH - searches PATH for needed command
  * @s_i: pointer to current session info
- * @cmd: command to be searched for
  *
  * Return: full command if exits
  * or NULL if not

@@ -89,8 +89,6 @@ char **split(char *str, char delim)
 /**
  * break_chain - parses a command chain, separating commands and operators
  * @s_i: session info
- * @commands: double pointer to store commands
- * @operators: double pointer to store operators
  * Return: 0 on success, -1 on failure
  */
 int break_chain(s_info *s_i)

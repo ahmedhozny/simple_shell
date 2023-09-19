@@ -52,9 +52,11 @@ typedef struct list
  * struct session_info - struct for session_info
  * @status: current status code
  * @iter_num: current iteration number
+ * @prev_dir: previous directory
  * @cur_line: current line of input
  * @cur_cmd: current command array
- * @prev_dir: previous directory
+ * @cmd_list: commands list
+ * @ops_list: operators list
  * @env_keys: list of environment keys
  * @env_vals: list of environment values
  *
@@ -65,9 +67,9 @@ typedef struct session_info
 {
 	unsigned int status;
 	unsigned long iter_num;
+	char *prev_dir;
 	char *cur_line;
 	char **cur_cmd;
-	char *prev_dir;
 	char **cmd_list;
 	int *ops_list;
 	list *env_keys;
@@ -122,7 +124,7 @@ void _EOF(s_info *s_i);
 /* handelers functions */
 int check_chain(const char *str);
 void handle_input(s_info *s_i);
-void handle_op(s_info *s_i, int op);
+int handle_op(s_info *s_i, int op);
 void handle_comments(s_info *s_i);
 char *search_PATH(s_info *s_i);
 

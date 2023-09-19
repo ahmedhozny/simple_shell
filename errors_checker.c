@@ -107,9 +107,9 @@ int cd_validity_checker(s_info *s_i, char *dir, int print_error)
 }
 
 /**
- * exitcode_validity_checker - checks exit code validity
+ * bad_chain_error - checks for commands chain error
  * @s_i: session info
- * @exit_code: given exit code
+ * @op: current operation
  * @print_error: [boolean] whether error message will be printed
  * Return: 0 if code is valid; -1 otherwise.
  */
