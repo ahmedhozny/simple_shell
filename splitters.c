@@ -55,7 +55,7 @@ char **strtow(char *str, char delim)
 char **split(char *str, char delim)
 {
 	char **strArr;
-	int i, k, size, size1 = 0;
+	int i, k, size, size1 = 0, f = 0;
 
 	if (str == NULL || *str == '\0')
 		return (NULL);
@@ -73,16 +73,18 @@ char **split(char *str, char delim)
 		size1++;
 	}
 
+	if (str[i] != '\0')
+		f = 1;
 	strArr[0] = malloc(sizeof(**strArr) * (size1 + 1));
-	strArr[1] = malloc(sizeof(**strArr) * (size - size1));
+	strArr[1] = malloc(sizeof(**strArr) * (size - size1 - f + 1));
 	if (!strArr[0] || !strArr[1])
 		return (bigFree(strArr, 2), NULL);
 	for (k = 0; k < size1; k++)
 		strArr[0][k] = str[k];
-	for (k = 0; k < (size - size1); k++)
-		strArr[1][k] = str[k + size1 + 1];
+	for (k = 0; k < (size - size1 - f); k++)
+		strArr[1][k] = str[k + size1 + f];
 
-	strArr[0][size1] = '\0', strArr[1][size - size1 - 1] = '\0';
+	strArr[0][size1] = '\0', strArr[1][size - size1 - f] = '\0';
 	return (strArr);
 }
 

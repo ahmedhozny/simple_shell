@@ -123,7 +123,7 @@ void set_alias(s_info *s_i, char *name, char *value)
 	{
 		if (!_strcmp(key->d_ptr, name))
 		{
-			free(val->d_ptr);
+			free(name), free(val->d_ptr);
 			val->d_ptr = value;
 			return;
 		}
