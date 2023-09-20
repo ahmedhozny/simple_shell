@@ -18,8 +18,17 @@ int shell(s_info *s_i)
 		s_i->cmd_list = NULL, s_i->ops_list = NULL;
 		if (s_i->fd == STDIN_FILENO && isatty(STDIN_FILENO))
 			_puts(PROMPT), _putchar(BUF_FLUSH);
-		if (readline(&(s_i->cur_line), &len, s_i->fd) < 0)
-			_EOF(s_i);
+
+		if (s_i->fd == STDIN_FILENO)
+		{
+			if (getline(&(s_i->cur_line), &len, stdin) < 0)
+				_EOF(s_i);
+		}
+		else
+		{
+			if (readline(&(s_i->cur_line), &len, s_i->fd) < 0)
+				_EOF(s_i);
+		}
 
 		handle_input(s_i);
 	}

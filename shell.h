@@ -119,7 +119,7 @@ void cleanup(s_info *s_i);
 
 /* execute functions */
 int _execute(s_info *s_i);
-void pre_execute(s_info *s_i);
+int pre_execute(s_info *s_i);
 
 /* exit functions */
 void exit_sh(s_info *s_i);

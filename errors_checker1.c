@@ -51,21 +51,14 @@ int file_permission_error(s_info *s_i, int print_error)
  */
 int file_error(s_info *s_i, char *file_name, char *message)
 {
-	char *temp = NULL, *temp2 = NULL;
+	char *temp = NULL;
 
 	s_i->status = 2;
 	temp = _getenv(s_i, "_")->d_ptr;
-	temp2 = convertUnsignedNum(s_i->iter_num);
-	if (!temp || !temp2)
-	{
-		free(temp2);
-		return (-1);
-	}
 	_putchar(BUF_FLUSH);
 	_puts(temp);
 	_puts(": ");
-	_puts(temp2);
-	free(temp2);
+	_putchar('0');
 	_puts(": cannot open ");
 	_puts(file_name);
 	_puts(message);

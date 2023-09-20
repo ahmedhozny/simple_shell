@@ -35,7 +35,7 @@ void exit_with_status(s_info *s_i)
  */
 void _EOF(s_info *s_i)
 {
-	if (isatty(STDIN_FILENO))
+	if (s_i->fd == STDIN_FILENO && isatty(STDIN_FILENO))
 		_puts("\n");
 
 	cleanup(s_i);

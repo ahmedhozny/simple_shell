@@ -45,8 +45,7 @@ int check_chain(const char *str)
  */
 void handle_input(s_info *s_i)
 {
-	int op = 0;
-	int i, stat;
+	int op = 0, i, stat;
 
 	s_i->cur_line[_strlen(s_i->cur_line) - 1] = '\0';
 	stat = check_chain(s_i->cur_line);
@@ -61,7 +60,8 @@ void handle_input(s_info *s_i)
 		}
 		s_i->cmd_list[stat + 1] = NULL;
 		s_i->ops_list[stat] = '\0';
-		break_chain(s_i);
+		if (break_chain(s_i) == -1)
+			return;
 		for (i = 0; i < stat + 1; ++i)
 		{
 			s_i->cur_cmd = strtow(s_i->cmd_list[i], ' ');

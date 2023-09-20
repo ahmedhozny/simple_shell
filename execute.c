@@ -3,15 +3,17 @@
 /**
  * pre_execute - prepares requested command for execution
  * @s_i: session info
+ *
+ * Return: 1 on Succsess, 0 on Failure
  */
-void pre_execute(s_info *s_i)
+int pre_execute(s_info *s_i)
 {
 	char *tmp = NULL;
 
 	if (!s_i->cur_cmd || !s_i->cur_cmd[0])
-		return;
+		return (0);
 	if (exec_builtin(s_i))
-		return;
+		return (1);
 	s_i->status = 0;
 	if (s_i->cur_cmd[0][0] != '.' && s_i->cur_cmd[0][0] != '/')
 	{
@@ -26,7 +28,8 @@ void pre_execute(s_info *s_i)
 		file_permission_error(s_i, 1);
 
 	if (!s_i->status)
-		_execute(s_i);
+		return (!_execute(s_i));
+	return (0);
 }
 
 /**

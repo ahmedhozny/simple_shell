@@ -41,16 +41,13 @@ int main(int ac, char **av)
 
 	if (!init_environment(&s_i))
 		return (cleanup(&s_i), 1);
-	if (ac > 2)
-		return (cleanup(&s_i), 1);
-	if (ac == 2)
+	if (ac >= 2)
 	{
 		s_i.fd = open(av[1], O_RDONLY);
-		if (s_i.fd == -1 && errno == EACCES)
+		if (s_i.fd == -1)
 		{
 			if (errno == EACCES)
-				return (file_error(&s_i, av[1], ": Permission denied\n"), cleanup(&s_i),
-								2);
+				return (cleanup(&s_i), 2);
 			else
 				return (file_error(&s_i, av[1], ": No such file\n"), cleanup(&s_i), 2);
 		}
