@@ -4,10 +4,11 @@
  * readline - reads a line that terminates with EOL
  * @ptr: reference of buffer pointer
  * @n: pointer to allocation memory size
+ * @fd: number of file descriptor
  *
  * Return: Length of the line (EOL included), -1 if error encountered
  */
-ssize_t readline(char **ptr, size_t *n)
+ssize_t readline(char **ptr, size_t *n, int fd)
 {
 	size_t length = 0, buf_size = 120;
 	char *new_ptr;
@@ -18,7 +19,7 @@ ssize_t readline(char **ptr, size_t *n)
 		buf_size = *n < 1 ? 1 : *n;
 	*ptr = malloc(buf_size * sizeof(char));
 	do {
-		r = read_char(&c);
+		r = read_char(&c, fd);
 		if (r == -1 || (r < 1 && length == 0))
 			return (-1);
 		if (length + 1 >= buf_size)
@@ -41,13 +42,14 @@ ssize_t readline(char **ptr, size_t *n)
 /**
  * read_char - reads a single character from stdin
  * @c: pointer to a character
+ * @fd: number of file descriptor
  *
  * Return: 1 if character is read successfully, -1 otherwise
  */
-int read_char(char *c)
+int read_char(char *c, int fd)
 {
 	int r;
 
-	r = (int) read(STDIN_FILENO, c, 1);
+	r = (int) read(fd, c, 1);
 	return (r);
 }

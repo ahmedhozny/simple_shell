@@ -41,3 +41,36 @@ int file_permission_error(s_info *s_i, int print_error)
 	return (-1);
 }
 
+/**
+ * file_existence_error - checks if file exists
+ * @s_i: session info
+ * @file_name: name of file causing the error
+ * @print_error: [boolean] whether error message will be printed
+ * Return: 0 if file is okay; -1 otherwise.
+ */
+int file_existence_error(s_info *s_i, char *file_name, int print_error)
+{
+	char *temp = NULL, *temp2 = NULL;
+
+	s_i->status = 2;
+	if (print_error)
+	{
+		temp = _getenv(s_i, "_")->d_ptr;
+		temp2 = convertUnsignedNum(s_i->iter_num);
+		if (!temp || !temp2)
+		{
+			free(temp2);
+			return (-1);
+		}
+		_putchar(BUF_FLUSH);
+		_puts(temp);
+		_puts(": ");
+		_puts(temp2);
+		free(temp2);
+		_puts(": cannot open ");
+		_puts(file_name);
+		_puts(": No such file\n");
+		_putchar(ERROR_FLUSH);
+	}
+	return (1);
+}

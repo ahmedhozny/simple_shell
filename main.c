@@ -23,18 +23,23 @@ void sigintHandler(int signal)
  */
 int main(int ac, char **av)
 {
-	s_info s_i = {0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+	s_info s_i = {0, 0, STDIN_FILENO, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
 
-	(void)ac;
-	(void)av;
+	if (!init_environment(&s_i))
+		return (cleanup(&s_i), 1);
+	if (ac > 2)
+		return (cleanup(&s_i), !print_error("Usage: simple_shell [filename]"));
+	if (ac == 2)
+	{
+		s_i.fd = open(av[1], O_RDONLY);
+		if (s_i.fd == -1)
+			return (file_existence_error(&s_i, av[1], 1), cleanup(&s_i), 2);
+	}
 
 	session_getter_setter(&s_i);
 	signal(SIGINT, sigintHandler);
-	if (!init_environment(&s_i))
-		cleanup(&s_i);
-	else
-		shell(&s_i);
 
+	shell(&s_i);
 	exit(s_i.status);
 }
 

@@ -2,6 +2,7 @@
 #define SHELL
 
 #include <errno.h>
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -52,6 +53,7 @@ typedef struct list
  * struct session_info - struct for session_info
  * @status: current status code
  * @iter_num: current iteration number
+ * @fd: number of file descriptor
  * @prev_dir: previous directory
  * @cur_line: current line of input
  * @cur_cmd: current command array
@@ -67,6 +69,7 @@ typedef struct session_info
 {
 	unsigned int status;
 	unsigned long iter_num;
+	int fd;
 	char *prev_dir;
 	char *cur_line;
 	char **cur_cmd;
@@ -108,6 +111,7 @@ int cd_validity_checker(s_info *s_i, char *dir, int print_error);
 int bad_chain_error(s_info *s_i, int op, int print_error);
 int print_error(char *message);
 int file_permission_error(s_info *s_i, int print_error);
+int file_existence_error(s_info *s_i, char *file_name, int print_error);
 
 /* memory functions */
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
@@ -159,8 +163,8 @@ int _setenv(s_info *s_i, char *key, char *value);
 int _unsetenv(s_info *s_i);
 
 /* line reader functions */
-ssize_t readline(char **ptr, size_t *n);
-int read_char(char *c);
+ssize_t readline(char **ptr, size_t *n, int fd);
+int read_char(char *c, int fd);
 
 /* SHELL functions */
 int shell(s_info *s_i);

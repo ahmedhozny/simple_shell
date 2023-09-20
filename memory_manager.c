@@ -75,4 +75,6 @@ void cleanup(s_info *s_i)
 	free(s_i->cur_line);
 	free(s_i->prev_dir);
 	free(s_i->ops_list);
+	if (s_i->fd != STDIN_FILENO)
+		close(s_i->fd);
 }

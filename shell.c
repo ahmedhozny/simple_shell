@@ -17,7 +17,7 @@ int shell(s_info *s_i)
 		s_i->cmd_list = NULL, s_i->ops_list = NULL;
 		if (isatty(STDIN_FILENO))
 			_puts(PROMPT), _putchar(BUF_FLUSH);
-		if (readline(&(s_i->cur_line), &len) < 1)
+		if (readline(&(s_i->cur_line), &len, s_i->fd) < 1)
 			_EOF(s_i);
 
 		handle_input(s_i);
