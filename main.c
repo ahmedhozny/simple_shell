@@ -37,9 +37,11 @@ void sigintHandler(int signal)
  */
 int main(int ac, char **av)
 {
-	s_info s_i = {0, 0, STDIN_FILENO, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+	s_info s_i = {0, 0, STDIN_FILENO, NULL,
+				  NULL, NULL, NULL, NULL,
+				  NULL, NULL, NULL, NULL};
 
-	if (!init_environment(&s_i))
+	if (!init_environment(&s_i) || !init_aliases(&s_i))
 		return (cleanup(&s_i), 1);
 	if (ac >= 2)
 	{

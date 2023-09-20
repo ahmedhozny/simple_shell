@@ -67,8 +67,7 @@ void handle_input(s_info *s_i)
 			s_i->cur_cmd = strtow(s_i->cmd_list[i], ' ');
 			if (!handle_op(s_i, op))
 			{
-				bigFree(s_i->cmd_list, -1);
-				free(s_i->ops_list);
+				bigFree(s_i->cmd_list, -1), free(s_i->ops_list);
 				return;
 			}
 			op = s_i->ops_list[i];

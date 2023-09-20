@@ -12,6 +12,9 @@ int pre_execute(s_info *s_i)
 
 	if (!s_i->cur_cmd || !s_i->cur_cmd[0])
 		return (0);
+	tmp = get_alias(s_i, s_i->cur_cmd[0]);
+	if (tmp != NULL)
+		free(s_i->cur_cmd[0]), s_i->cur_cmd[0] = _strdup(tmp);
 	if (!_strcmp(s_i->cur_cmd[0], "exit"))
 		exit_sh(s_i);
 	s_i->status = 0;

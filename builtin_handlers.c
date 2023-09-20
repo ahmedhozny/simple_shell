@@ -28,6 +28,8 @@ int exec_builtin(s_info *s_i)
 			if (args[1])
 				cd_validity_checker(s_i, args[1], 1);
 	}
+	else if (!_strcmp(cmd, "alias"))
+		alias_handler(s_i);
 	else
 		return (0);
 	return (1);

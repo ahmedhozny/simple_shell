@@ -61,6 +61,8 @@ typedef struct list
  * @ops_list: operators list
  * @env_keys: list of environment keys
  * @env_vals: list of environment values
+ * @als_keys: list of all stored aliases
+ * @als_vals: list of aliases values
  *
  * Description: struct to store all needed information
  * about the current session
@@ -77,6 +79,8 @@ typedef struct session_info
 	int *ops_list;
 	list *env_keys;
 	list *env_vals;
+	list *als_keys;
+	list *als_vals;
 } s_info;
 
 /************* FUNCTIONS *************/
@@ -160,6 +164,13 @@ void print_env(s_info *s_i);
 node *_getenv(s_info *s_i, char *key);
 int _setenv(s_info *s_i, char *key, char *value);
 int _unsetenv(s_info *s_i);
+
+/* alias functions */
+int init_aliases(s_info *s_i);
+void alias_handler(s_info *s_i);
+void print_alias(s_info *s_i, char *name);
+char *get_alias(s_info *s_i, char *name);
+void set_alias(s_info *s_i, char *name, char *value);
 
 /* line reader functions */
 ssize_t readline(char **ptr, size_t *n, int fd);
