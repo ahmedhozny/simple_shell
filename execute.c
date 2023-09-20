@@ -4,7 +4,7 @@
  * pre_execute - prepares requested command for execution
  * @s_i: session info
  *
- * Return: 1 on Succsess, 0 on Failure
+ * Return: 1 on Success, 0 on Failure
  */
 int pre_execute(s_info *s_i)
 {
@@ -12,9 +12,11 @@ int pre_execute(s_info *s_i)
 
 	if (!s_i->cur_cmd || !s_i->cur_cmd[0])
 		return (0);
+	if (!_strcmp(s_i->cur_cmd[0], "exit"))
+		exit_sh(s_i);
+	s_i->status = 0;
 	if (exec_builtin(s_i))
 		return (1);
-	s_i->status = 0;
 	if (s_i->cur_cmd[0][0] != '.' && s_i->cur_cmd[0][0] != '/')
 	{
 		tmp = search_PATH(s_i);

@@ -22,11 +22,9 @@ int exec_builtin(s_info *s_i)
 		if (args[1])
 			_unsetenv(s_i);
 	}
-	else if (!_strcmp(cmd, "exit"))
-		exit_sh(s_i);
 	else if (!_strcmp(cmd, "cd"))
 	{
-		if (cd(s_i) == 2)
+		if (cd(s_i) != 1)
 			if (args[1])
 				cd_validity_checker(s_i, args[1], 1);
 	}
