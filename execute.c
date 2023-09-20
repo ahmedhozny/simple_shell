@@ -16,7 +16,7 @@ int pre_execute(s_info *s_i)
 	if (tmp != NULL)
 		free(s_i->cur_cmd[0]), s_i->cur_cmd[0] = _strdup(tmp);
 	if (!_strcmp(s_i->cur_cmd[0], "exit"))
-		exit_sh(s_i);
+		return (exit_sh(s_i), 0);
 	s_i->status = 0;
 	if (exec_builtin(s_i))
 		return (1);
