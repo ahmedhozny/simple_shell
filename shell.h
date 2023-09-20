@@ -110,7 +110,7 @@ int cd_validity_checker(s_info *s_i, char *dir, int print_error);
 int bad_chain_error(s_info *s_i, int op, int print_error);
 int print_error(char *message);
 int file_permission_error(s_info *s_i, int print_error);
-int file_existence_error(s_info *s_i, char *file_name, int print_error);
+int file_error(s_info *s_i, char *file_name, char *message);
 
 /* memory functions */
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);

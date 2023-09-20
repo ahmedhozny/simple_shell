@@ -35,7 +35,7 @@ int command_validity_error(s_info *s_i, char *cmd, int print_error)
 		_puts(": not found\n");
 		_putchar(ERROR_FLUSH);
 	}
-	return (0);
+	return (-1);
 }
 
 /**
@@ -51,7 +51,7 @@ int exitcode_validity_checker(s_info *s_i, char *exit_code, int print_error)
 
 	if (!_isPositiveNumber(exit_code))
 	{
-		s_i->status = 128;
+		s_i->status = 2;
 		if (print_error)
 		{
 			temp = _getenv(s_i, "_")->d_ptr;

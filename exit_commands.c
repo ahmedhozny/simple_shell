@@ -25,7 +25,7 @@ void exit_with_status(s_info *s_i)
 	if (!exitcode_validity_checker(s_i, s_i->cur_cmd[1], 1))
 	{
 		cleanup(s_i);
-		_exit(code);
+		exit(code);
 	}
 }
 

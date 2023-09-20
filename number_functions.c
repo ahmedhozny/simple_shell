@@ -1,4 +1,5 @@
 #include "shell.h"
+#include <limits.h>
 
 /**
  * _atoi - convert a string to an integer
@@ -82,13 +83,18 @@ char *convertUnsignedNum(unsigned long num)
 /**
  * _isPositiveNumber - checks if a string is actually a positive number
  * @str: string to be checked
- * Return: 1 if string is a number, 0 if not
+ * Return: 1 if string is a valid number, 0 if not
  */
 int _isPositiveNumber(char *str)
 {
+	unsigned long n = 0;
+
 	while (*str)
 	{
 		if (*str < '0' || *str > '9')
+			return (0);
+		n = (n * 10) + (*str - '0');
+		if (n > INT_MAX)
 			return (0);
 		str++;
 	}

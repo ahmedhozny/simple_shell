@@ -1,4 +1,5 @@
 #include "shell.h"
+#include <unistd.h>
 
 /**
  * shell - shell loop function
@@ -15,9 +16,9 @@ int shell(s_info *s_i)
 		free(s_i->cur_line);
 		s_i->cur_cmd = NULL, s_i->cur_line = NULL;
 		s_i->cmd_list = NULL, s_i->ops_list = NULL;
-		if (isatty(STDIN_FILENO))
+		if (s_i->fd == STDIN_FILENO && isatty(STDIN_FILENO))
 			_puts(PROMPT), _putchar(BUF_FLUSH);
-		if (readline(&(s_i->cur_line), &len, s_i->fd) < 1)
+		if (readline(&(s_i->cur_line), &len, s_i->fd) < 0)
 			_EOF(s_i);
 
 		handle_input(s_i);
