@@ -41,7 +41,8 @@ void alias_handler(s_info *s_i)
 		{
 			print_alias(s_i, split_ptr[0]);
 			bigFree(split_ptr, 2);
-			return;
+			ptr++;
+			continue;
 		}
 
 		set_alias(s_i, split_ptr[0], split_ptr[1]);
@@ -89,11 +90,18 @@ char *get_alias(s_info *s_i, char *name)
 {
 	node *key = s_i->als_keys->head;
 	node *val = s_i->als_vals->head;
+	char *tmp;
 
 	while (key && val)
 	{
 		if (!_strcmp(key->d_ptr, name))
-			return (val->d_ptr);
+		{
+			tmp = get_alias(s_i, val->d_ptr);
+			if (tmp != NULL)
+				return (tmp);
+			else
+				return (val->d_ptr);
+		}
 		key = key->next, val = val->next;
 	}
 
