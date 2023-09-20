@@ -95,7 +95,6 @@ int isValidName(char ch);
 /* splitting functions */
 char **strtow(char *str, char delim);
 char **split(char *str, char delim);
-char **getArgs(const char *str, const char *delim);
 int break_chain(s_info *s_i);
 
 /* number functions */
