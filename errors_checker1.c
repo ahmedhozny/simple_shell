@@ -3,13 +3,12 @@
 /**
  * file_permission_error - check if file is actual and executable
  * @s_i: session info
- * @print_error: [boolean] whether error message will be printed
+ * @prints: [boolean] whether error message will be printed
  * Return: 0 if file is okay; -1 otherwise.
  */
-int file_permission_error(s_info *s_i, int print_error)
+int file_permission_error(s_info *s_i, int prints)
 {
 	struct stat st;
-	char *temp = NULL, *temp2 = NULL;
 
 	if (!s_i->cur_cmd[0])
 		return (-1);
@@ -19,25 +18,8 @@ int file_permission_error(s_info *s_i, int print_error)
 		return (0);
 
 	s_i->status = 126;
-	if (print_error)
-	{
-		temp = _getenv(s_i, "_")->d_ptr;
-		temp2 = convertUnsignedNum(s_i->iter_num);
-		if (!temp || !temp2)
-		{
-			free(temp2);
-			return (-1);
-		}
-		_putchar(BUF_FLUSH);
-		_puts(temp);
-		_puts(": ");
-		_puts(temp2);
-		free(temp2);
-		_puts(": ");
-		_puts(s_i->cur_cmd[0]);
-		_puts(": Permission denied\n");
-		_putchar(ERROR_FLUSH);
-	}
+	if (prints)
+		print_error(s_i, s_i->cur_cmd[0], "Permission denied");
 	return (-1);
 }
 
@@ -49,19 +31,16 @@ int file_permission_error(s_info *s_i, int print_error)
  *
  * Return: 0 if file is okay; -1 otherwise.
  */
-int file_error(s_info *s_i, char *file_name, char *message)
+int file_error(s_info *s_i, char *file_name)
 {
-	char *temp = NULL;
 
 	s_i->status = 2;
-	temp = _getenv(s_i, "_")->d_ptr;
 	_putchar(BUF_FLUSH);
-	_puts(temp);
-	_puts(": ");
-	_putchar('0');
-	_puts(": cannot open ");
+	_puts(s_i->inst_prefix);
+	_puts(": 0");
+	_puts(": Can't open ");
 	_puts(file_name);
-	_puts(message);
+	_putchar('\n');
 	_putchar(ERROR_FLUSH);
 	return (1);
 }

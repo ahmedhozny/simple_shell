@@ -54,6 +54,7 @@ typedef struct list
  * @status: current status code
  * @iter_num: current iteration number
  * @fd: number of file descriptor
+ * @inst_prefix: prefix of our instance
  * @prev_dir: previous directory
  * @cur_line: current line of input
  * @cur_cmd: current command array
@@ -72,6 +73,7 @@ typedef struct session_info
 	unsigned int status;
 	unsigned long iter_num;
 	int fd;
+	char *inst_prefix;
 	char *prev_dir;
 	char *cur_line;
 	char **cur_cmd;
@@ -108,13 +110,13 @@ int _atoi(char *s);
 int _isPositiveNumber(char *str);
 
 /* errors functions */
-int command_validity_error(s_info *s_i, char *cmd, int print_error);
-int exitcode_validity_checker(s_info *s_i, char *exit_code, int print_error);
-int cd_validity_checker(s_info *s_i, char *dir, int print_error);
-int bad_chain_error(s_info *s_i, int op, int print_error);
-int print_error(char *message);
-int file_permission_error(s_info *s_i, int print_error);
-int file_error(s_info *s_i, char *file_name, char *message);
+int command_validity_error(s_info *s_i, char *cmd, int prints);
+int exitcode_validity_checker(s_info *s_i, char *exit_code, int prints);
+int cd_validity_checker(s_info *s_i, char *dir, int prints);
+int bad_chain_error(s_info *s_i, int op, int prints);
+void print_error(s_info *s_i, char *err_message, char *err_reason);
+int file_permission_error(s_info *s_i, int prints);
+int file_error(s_info *s_i, char *file_name);
 
 /* memory functions */
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
@@ -130,7 +132,7 @@ void exit_sh(s_info *s_i);
 void exit_with_status(s_info *s_i);
 void _EOF(s_info *s_i);
 
-/* handelers functions */
+/* handlers functions */
 int check_chain(const char *str);
 void handle_input(s_info *s_i);
 int handle_op(s_info *s_i, int op);
